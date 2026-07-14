@@ -1,0 +1,216 @@
+/**
+ * M Credit Design Tokens
+ * Unified design system variables for all pages
+ * Version: 1.0.0
+ */
+
+:root {
+  /* ============================================
+     BRAND COLORS
+     ============================================ */
+  --mcredit-primary: #00b4fa;
+  --mcredit-primary-hover: #141ed2;
+  --mcredit-primary-light: #66d4fc;
+  --mcredit-primary-dark: #141ed2;
+  --mcredit-secondary: #66d4fc;
+  --mcredit-secondary-dark: #141ed2;
+  
+  /* Semantic Colors */
+  --mcredit-success: #00b4fa;
+  --mcredit-success-hover: #141ed2;
+  --mcredit-warning: #ff9800;
+  --mcredit-error: #e53e3e;
+  --mcredit-info: #17a2b8;
+  
+  /* ============================================
+     NEUTRAL COLORS
+     ============================================ */
+  --mcredit-white: #ffffff;
+  --mcredit-black: #000000;
+  --mcredit-text-primary: #212529;
+  --mcredit-text-secondary: #5a6a85;
+  --mcredit-text-tertiary: #6b7280;
+  --mcredit-border: #ECECEC;
+  --mcredit-border-light: #ECECEC;
+  --mcredit-bg-primary: #ffffff;
+  --mcredit-bg-secondary: #f8f9fc;
+  --mcredit-bg-tertiary: #f8f9fa;
+  --mcredit-light-bg: #e8f7fd;
+  
+  /* ============================================
+     SPACING SYSTEM
+     ============================================ */
+  --mcredit-space-1: 4px;
+  --mcredit-space-2: 8px;
+  --mcredit-space-3: 12px;
+  --mcredit-space-4: 16px;
+  --mcredit-space-5: 20px;
+  --mcredit-space-6: 24px;
+  --mcredit-space-8: 32px;
+  --mcredit-space-10: 40px;
+  --mcredit-space-12: 48px;
+  --mcredit-space-16: 64px;
+  
+  /* Legacy spacing (for backward compatibility) */
+  --mcredit-spacing-xs: 8px;
+  --mcredit-spacing-sm: 12px;
+  --mcredit-spacing-md: 16px;
+  --mcredit-spacing-lg: 24px;
+  --mcredit-spacing-xl: 32px;
+  
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  /* Font Families */
+  --mcredit-font-family-primary: 'Inter', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mcredit-font-family-heading: 'Inter', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Font Sizes */
+  --mcredit-font-size-xs: 12px;
+  --mcredit-font-size-sm: 14px;
+  --mcredit-font-size-base: 16px;
+  --mcredit-font-size-lg: 18px;
+  --mcredit-font-size-xl: 20px;
+  --mcredit-font-size-2xl: 24px;
+  --mcredit-font-size-3xl: 30px;
+  --mcredit-font-size-4xl: 36px;
+  
+  /* Font Weights */
+  --mcredit-font-weight-normal: 400;
+  --mcredit-font-weight-medium: 500;
+  --mcredit-font-weight-semibold: 600;
+  --mcredit-font-weight-bold: 700;
+  --mcredit-font-weight-extrabold: 800;
+  
+  /* Line Heights */
+  --mcredit-line-height-tight: 1.2;
+  --mcredit-line-height-normal: 1.5;
+  --mcredit-line-height-relaxed: 1.75;
+  
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
+  --mcredit-radius-sm: 8px;
+  --mcredit-radius-md: 12px;
+  --mcredit-radius-lg: 16px;
+  --mcredit-radius-xl: 20px;
+  --mcredit-radius-2xl: 24px;
+  --mcredit-radius-full: 9999px;
+  
+  /* Legacy radius (for backward compatibility) */
+  --mcredit-border-radius-sm: 8px;
+  --mcredit-border-radius-md: 12px;
+  --mcredit-border-radius-lg: 16px;
+  --mcredit-border-radius-xl: 20px;
+  
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  --mcredit-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --mcredit-shadow-md: 0 4px 6px -1px rgba(0, 180, 250, 0.1), 0 2px 4px -2px rgba(0, 180, 250, 0.1);
+  --mcredit-shadow-lg: 0 10px 15px -3px rgba(0, 180, 250, 0.1), 0 4px 6px -4px rgba(0, 180, 250, 0.1);
+  --mcredit-shadow-xl: 0 20px 25px -5px rgba(0, 180, 250, 0.1), 0 10px 10px -5px rgba(0, 180, 250, 0.05);
+  
+  /* Legacy shadows (for backward compatibility) */
+  --mcredit-shadow-primary-sm: 0 4px 15px rgba(0, 180, 250, 0.07);
+  --mcredit-shadow-primary-lg: 0 10px 30px rgba(0, 180, 250, 0.1);
+  
+  /* ============================================
+     TRANSITIONS & ANIMATIONS
+     ============================================ */
+  --mcredit-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --mcredit-transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --mcredit-transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Legacy transition (for backward compatibility) */
+  --mcredit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* ============================================
+     LAYOUT
+     ============================================ */
+  --mcredit-container-max-width: 1200px;
+  --mcredit-container-max-width-narrow: 900px;
+  --mcredit-touch-target: 48px;
+  
+  /* ============================================
+     Z-INDEX SCALE
+     ============================================ */
+  --mcredit-z-dropdown: 1000;
+  --mcredit-z-sticky: 1020;
+  --mcredit-z-fixed: 1030;
+  --mcredit-z-modal-backdrop: 1040;
+  --mcredit-z-modal: 1050;
+  --mcredit-z-popover: 1060;
+  --mcredit-z-tooltip: 1070;
+  --mcredit-z-toast: 9999;
+  
+  /* ============================================
+     BREAKPOINTS (for JavaScript use)
+     ============================================ */
+  --mcredit-breakpoint-sm: 576px;
+  --mcredit-breakpoint-md: 768px;
+  --mcredit-breakpoint-lg: 992px;
+  --mcredit-breakpoint-xl: 1200px;
+  --mcredit-breakpoint-xxl: 1400px;
+}
+
+/* ============================================
+   BACKWARD COMPATIBILITY
+   Map old variable names to new ones
+   ============================================ */
+:root {
+  /* Color aliases */
+  --primary-color: var(--mcredit-primary);
+  --primary-hover-color: var(--mcredit-primary-hover);
+  --primary-light: var(--mcredit-primary-light);
+  --primary-dark: var(--mcredit-primary-dark);
+  --secondary-color: var(--mcredit-secondary);
+  --success-color: var(--mcredit-success);
+  --success-hover-color: var(--mcredit-success-hover);
+  --warning-color: var(--mcredit-warning);
+  --error-color: var(--mcredit-error);
+  --info-color: var(--mcredit-info);
+  --white-color: var(--mcredit-white);
+  --text-primary: var(--mcredit-text-primary);
+  --text-secondary: var(--mcredit-text-secondary);
+  --border-color: var(--mcredit-border);
+  --background-color: var(--mcredit-bg-secondary);
+  --card-background: var(--mcredit-bg-primary);
+  --body-bg: var(--mcredit-bg-tertiary);
+  --light-bg: var(--mcredit-light-bg);
+  --danger-color: var(--mcredit-error);
+  
+  /* Spacing aliases */
+  --spacing-xs: var(--mcredit-spacing-xs);
+  --spacing-sm: var(--mcredit-spacing-sm);
+  --spacing-md: var(--mcredit-spacing-md);
+  --spacing-lg: var(--mcredit-spacing-lg);
+  --spacing-xl: var(--mcredit-spacing-xl);
+  
+  /* Border radius aliases */
+  --border-radius-sm: var(--mcredit-radius-sm);
+  --border-radius-md: var(--mcredit-radius-md);
+  --border-radius-lg: var(--mcredit-radius-lg);
+  --border-radius: var(--mcredit-radius-md);
+  
+  /* Shadow aliases */
+  --shadow-sm: var(--mcredit-shadow-sm);
+  --shadow-md: var(--mcredit-shadow-md);
+  --shadow-lg: var(--mcredit-shadow-lg);
+  
+  /* Transition aliases */
+  --transition: var(--mcredit-transition-base);
+  
+  /* Touch target */
+  --touch-target: var(--mcredit-touch-target);
+}
+
+/* ============================================
+   DARK MODE SUPPORT (Future)
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark mode tokens can be added here in the future */
+  }
+}
+

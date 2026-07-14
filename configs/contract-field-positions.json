@@ -1,0 +1,125 @@
+{
+  "formSpec": {
+    "template": "BM02.BM-PTSP/02",
+    "title": "HỢP ĐỒNG CHO VAY TIỀN MẶT",
+    "totalPages": 11,
+    "imageSize": { "width": 2550, "height": 3300 },
+    "pagesBasePath": "../image/contract/",
+    "defaultFieldStyle": {
+      "fontSize": 44,
+      "bold": true,
+      "align": "center",
+      "yOffset": -35
+    },
+    "coordinateSystem": {
+      "origin": "TOP-LEFT",
+      "unit": "px",
+      "note": "y = baseline dòng dấu chấm PDF; yOffset -35px ≈ lên 0.3cm (300dpi)"
+    },
+    "sections": {
+      "contract": { "label": "Hợp đồng vay", "pages": [1, 2] },
+      "terms": { "label": "Điều kiện & điều khoản", "pages": [3, 4, 5, 6, 7, 8, 9, 10, 11] }
+    }
+  },
+  "pages": [
+    {
+      "page": 1,
+      "image": "../image/contract/hop-dong-page-01.png",
+      "title": "Trang 1 — Thông tin hợp đồng",
+      "fields": [
+        { "id": "contractNumber", "label": "Số hợp đồng", "dataKey": "loanCode", "y": 218, "areaLeft": 2065, "areaRight": 2245, "fontSize": 42, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "contractDateDay", "label": "Ngày ký - ngày", "dataKey": "contractDateDay", "y": 423, "areaLeft": 444, "areaRight": 512, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "contractDateMonth", "label": "Ngày ký - tháng", "dataKey": "contractDateMonth", "y": 423, "areaLeft": 671, "areaRight": 738, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "contractDateYear", "label": "Ngày ký - năm", "dataKey": "contractDateYear", "y": 423, "areaLeft": 874, "areaRight": 942, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "borrowerName", "label": "Bên vay - Ông/Bà họ tên", "dataKey": "borrowerName", "y": 896, "areaLeft": 528, "areaRight": 1605, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "cccd", "label": "Số CMND/CCCD", "dataKey": "cccd", "y": 976, "areaLeft": 671, "areaRight": 868, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "issueDateDay", "label": "Cấp ngày - ngày", "dataKey": "issueDateDay", "y": 976, "areaLeft": 1066, "areaRight": 1144, "fontSize": 40, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "issueDateMonth", "label": "Cấp ngày - tháng", "dataKey": "issueDateMonth", "y": 976, "areaLeft": 1145, "areaRight": 1223, "fontSize": 40, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "issueDateYear", "label": "Cấp ngày - năm", "dataKey": "issueDateYear", "y": 976, "areaLeft": 1224, "areaRight": 1299, "fontSize": 40, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "issuePlace", "label": "Nơi cấp", "dataKey": "issuePlace", "y": 976, "areaLeft": 1407, "areaRight": 2377, "fontSize": 38, "bold": true, "align": "center", "color": "#000000", "wrap": true },
+        { "id": "permanentAddress", "label": "Địa chỉ thường trú", "dataKey": "permanentAddress", "y": 1055, "areaLeft": 588, "areaRight": 2310, "fontSize": 40, "bold": true, "align": "center", "color": "#000000", "wrap": true },
+        { "id": "phone", "label": "Điện thoại", "dataKey": "phone", "y": 1134, "areaLeft": 408, "areaRight": 2291, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "loanAmount", "label": "Số tiền vay", "dataKey": "loanAmountNumber", "y": 1550, "areaLeft": 450, "areaRight": 720, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "loanTerm", "label": "Thời hạn vay", "dataKey": "loanTermNumber", "y": 1630, "areaLeft": 522, "areaRight": 701, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "loanProductName", "label": "Tên sản phẩm vay", "dataKey": "loanProductName", "y": 1788, "areaLeft": 657, "areaRight": 820, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "interestRate", "label": "Lãi suất", "dataKey": "interestRateNumber", "y": 1867, "areaLeft": 909, "areaRight": 1013, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "accountNumber", "label": "Số tài khoản", "dataKey": "accountNumber", "y": 2262, "areaLeft": 1709, "areaRight": 2361, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "bankName", "label": "Tại ngân hàng", "dataKey": "bankName", "y": 2342, "areaLeft": 517, "areaRight": 2384, "fontSize": 40, "bold": true, "align": "center", "color": "#000000", "wrap": true },
+        { "id": "bankBranch", "label": "Chi nhánh/PGD", "dataKey": "bankBranch", "y": 2421, "areaLeft": 554, "areaRight": 2378, "fontSize": 40, "bold": true, "align": "center", "color": "#000000", "wrap": true }
+      ]
+    },
+    {
+      "page": 2,
+      "image": "../image/contract/hop-dong-page-02.png",
+      "title": "Trang 2 — Ký kết hợp đồng",
+      "fields": [
+        { "id": "borrowerSignature", "label": "Bên vay ký tên", "dataKey": "borrowerName", "y": 2520, "areaLeft": 400, "areaRight": 1200, "fontSize": 44, "bold": true, "align": "center", "color": "#000000" },
+        { "id": "contractDateFull", "label": "Ngày ký (chân trang)", "dataKey": "contractDateFull", "y": 2590, "areaLeft": 400, "areaRight": 1200, "fontSize": 38, "bold": true, "align": "center", "color": "#000000" }
+      ]
+    },
+    {
+      "page": 3,
+      "image": "../image/contract/hop-dong-page-03.png",
+      "title": "Trang 3 — Phần 2: Điều kiện & điều khoản",
+      "fields": []
+    },
+    {
+      "page": 4,
+      "image": "../image/contract/hop-dong-page-04.png",
+      "title": "Trang 4",
+      "fields": []
+    },
+    {
+      "page": 5,
+      "image": "../image/contract/hop-dong-page-05.png",
+      "title": "Trang 5",
+      "fields": []
+    },
+    {
+      "page": 6,
+      "image": "../image/contract/hop-dong-page-06.png",
+      "title": "Trang 6",
+      "fields": []
+    },
+    {
+      "page": 7,
+      "image": "../image/contract/hop-dong-page-07.png",
+      "title": "Trang 7",
+      "fields": []
+    },
+    {
+      "page": 8,
+      "image": "../image/contract/hop-dong-page-08.png",
+      "title": "Trang 8",
+      "fields": []
+    },
+    {
+      "page": 9,
+      "image": "../image/contract/hop-dong-page-09.png",
+      "title": "Trang 9",
+      "fields": []
+    },
+    {
+      "page": 10,
+      "image": "../image/contract/hop-dong-page-10.png",
+      "title": "Trang 10",
+      "fields": []
+    },
+    {
+      "page": 11,
+      "image": "../image/contract/hop-dong-page-11.png",
+      "title": "Trang 11 — Quy định chung",
+      "fields": []
+    }
+  ],
+  "metadata": {
+    "version": "2.2.1",
+    "source": "PDF BM02.BM-PTSP/02 - Mcredit (11 trang)",
+    "pdfSource": "132834975916850141_e87c019a-9e2e-4ff8-a662-7dfb7be8c526.pdf",
+    "calibrationTool": "pages/contract-position-tool.html",
+    "notes": [
+      "y căn theo baseline dòng dấu chấm (y_base) trên PDF",
+      "fontSize 38-44, bold, align center trong vùng areaLeft-areaRight"
+    ]
+  }
+}

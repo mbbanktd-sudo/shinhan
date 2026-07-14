@@ -1,0 +1,154 @@
+/* ============================================
+   MCredit - Desktop layout thu nhỏ trên mobile
+   Giữ giao diện PC, trình duyệt scale vừa màn hình
+   (viewport 1200px via desktop-scale.js)
+   ============================================ */
+
+html.mcredit-desktop-scale {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+html.mcredit-desktop-scale body {
+    min-width: 1200px;
+}
+
+/* Ẩn các block mobile UI cũ (nếu còn trong HTML) */
+.header-mobile,
+.register-now.is-mobile,
+.footer-mobile.is-mobile {
+    display: none !important;
+}
+
+/* Bootstrap: luôn hiện menu desktop khi scale */
+html.mcredit-desktop-scale header .navbar-collapse.collapse {
+    display: flex !important;
+    flex-basis: auto;
+    height: auto !important;
+    visibility: visible !important;
+}
+
+html.mcredit-desktop-scale header .navbar-expand-lg .navbar-nav {
+    flex-direction: row;
+}
+
+/* Tránh zoom iOS khi focus input (kích thước thật ~16px sau scale) */
+html.mcredit-desktop-scale input,
+html.mcredit-desktop-scale select,
+html.mcredit-desktop-scale textarea {
+    font-size: 16px !important;
+}
+
+/* Bỏ ràng buộc touch-target của mobile-accessibility khi scale desktop */
+html.mcredit-desktop-scale a,
+html.mcredit-desktop-scale button,
+html.mcredit-desktop-scale .btn {
+    min-height: unset;
+    min-width: unset;
+}
+
+/* ============================================
+   Đăng ký vay — kích thước lớn, theo từng điện thoại
+   ============================================ */
+
+:root {
+    --mcredit-loan-nav-size: 17px;
+    --mcredit-loan-nav-pad-y: 11px;
+    --mcredit-loan-nav-pad-x: 22px;
+    --mcredit-loan-heading-size: 26px;
+    --mcredit-loan-submit-size: 20px;
+    --mcredit-loan-submit-pad-y: 14px;
+    --mcredit-loan-cta-size: 18px;
+    --mcredit-loan-cta-pad-y: 12px;
+    --mcredit-loan-cta-pad-x: 28px;
+}
+
+html[data-mcredit-device="phone-xs"] {
+    --mcredit-loan-nav-size: 18px;
+    --mcredit-loan-heading-size: 28px;
+    --mcredit-loan-submit-size: 22px;
+    --mcredit-loan-submit-pad-y: 16px;
+    --mcredit-loan-cta-size: 19px;
+}
+
+html[data-mcredit-device="phone-sm"],
+html[data-mcredit-device="phone-md"] {
+    --mcredit-loan-nav-size: 19px;
+    --mcredit-loan-heading-size: 30px;
+    --mcredit-loan-submit-size: 23px;
+    --mcredit-loan-submit-pad-y: 16px;
+    --mcredit-loan-cta-size: 20px;
+}
+
+html[data-mcredit-device="phone-lg"],
+html[data-mcredit-device="phone-xl"] {
+    --mcredit-loan-nav-size: 20px;
+    --mcredit-loan-heading-size: 32px;
+    --mcredit-loan-submit-size: 24px;
+    --mcredit-loan-submit-pad-y: 18px;
+    --mcredit-loan-cta-size: 21px;
+}
+
+html[data-mcredit-device="tablet"] {
+    --mcredit-loan-heading-size: 34px;
+    --mcredit-loan-submit-size: 22px;
+}
+
+html.mcredit-desktop-scale {
+    --mcredit-loan-nav-size: calc(18px * var(--mcredit-ui-boost, 1.4));
+    --mcredit-loan-nav-pad-y: calc(12px * var(--mcredit-ui-boost, 1.4));
+    --mcredit-loan-nav-pad-x: calc(24px * var(--mcredit-ui-boost, 1.4));
+    --mcredit-loan-heading-size: calc(28px * var(--mcredit-ui-boost, 1.4));
+    --mcredit-loan-submit-size: calc(22px * var(--mcredit-ui-boost, 1.4));
+    --mcredit-loan-submit-pad-y: calc(16px * var(--mcredit-ui-boost, 1.4));
+    --mcredit-loan-cta-size: calc(20px * var(--mcredit-ui-boost, 1.4));
+    --mcredit-loan-cta-pad-y: calc(14px * var(--mcredit-ui-boost, 1.4));
+    --mcredit-loan-cta-pad-x: calc(30px * var(--mcredit-ui-boost, 1.4));
+}
+
+header .btn-register-loan-nav {
+    font-size: var(--mcredit-loan-nav-size) !important;
+    font-weight: 700 !important;
+    padding: var(--mcredit-loan-nav-pad-y) var(--mcredit-loan-nav-pad-x) !important;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.loan-regiter-content-custom .form-heading-register {
+    font-size: var(--mcredit-loan-heading-size) !important;
+    font-weight: 700 !important;
+    line-height: 1.25;
+    margin-bottom: 16px !important;
+}
+
+#home_loan_req.btn-send-loan-req {
+    font-size: var(--mcredit-loan-submit-size) !important;
+    font-weight: 700 !important;
+    padding: var(--mcredit-loan-submit-pad-y) 20px !important;
+    min-height: calc(var(--mcredit-loan-submit-pad-y) * 2 + 1.2em);
+    letter-spacing: 0.02em;
+}
+
+.btn-register-loan-cta {
+    font-size: var(--mcredit-loan-cta-size) !important;
+    font-weight: 700 !important;
+    padding: var(--mcredit-loan-cta-pad-y) var(--mcredit-loan-cta-pad-x) !important;
+    min-width: 200px;
+}
+
+#loanCalcModal .title-loan {
+    font-size: var(--mcredit-loan-heading-size) !important;
+    font-weight: 700 !important;
+}
+
+#loanCalcModal #modal_loan_req_submit {
+    font-size: var(--mcredit-loan-submit-size) !important;
+    font-weight: 700 !important;
+    padding: var(--mcredit-loan-submit-pad-y) 24px !important;
+    width: 100%;
+}
+
+.menu-mobile-item a[href*="step1.html"] {
+    font-size: calc(var(--mcredit-loan-nav-size) + 2px) !important;
+    font-weight: 700 !important;
+}
