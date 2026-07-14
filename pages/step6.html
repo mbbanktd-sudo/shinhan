@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes, viewport-fit=cover" />
+    <script src="../js/desktop-scale.js"></script>
+    <title>Hợp đồng & Điều kiện giải ngân - M Credit</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    
+    <!-- Mobile UI Enhancement - NEW -->
+    <link rel="stylesheet" href="unified-design-system.css">
+    <link rel="stylesheet" href="mobile-accessibility.css">
+    <link rel="stylesheet" href="loan-mobile.css">
+    
+    <!-- Step 1 Style Guide -->
+    <link rel="stylesheet" href="step1-style-guide.css">
+    
+    <style>
+      :root {
+          --primary-color: #00b4fa;
+          --primary-dark: #141ed2;
+          --primary-light: #66d4fc;
+          --secondary-color: #f5f6f5;
+          --accent-color: #66d4fc;
+      }
+      body {
+          font-family: 'Roboto', sans-serif;
+          font-size: 16px;
+          background-color: var(--secondary-color);
+          margin: 0;
+      }
+      
+      /* M Credit Header */
+      .mcredit-header {
+        background: #fff !important;
+        border-bottom: 1px solid #ECECEC;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 15px 0;
+      }
+      
+      .mcredit-header .container-header {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .mcredit-header img {
+        height: 40px;
+        max-width: 200px;
+        object-fit: contain;
+      }
+      
+      .header-icons {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .header-icons i {
+        font-size: 24px;
+        cursor: pointer;
+        color: #00b4fa;
+        transition: color 0.3s;
+      }
+      .header-icons i:hover {
+        color: var(--primary-light);
+      }
+
+      .container-main {
+          max-width: 90%;
+          width: 100%;
+          margin: 0 auto;
+          padding: 25px;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.1);
+          position: relative;
+      }
+      @media (min-width: 768px) {
+          .container-main {
+              max-width: 700px;
+              margin: 20px auto;
+          }
+      }
+      .nav-tabs {
+          display: flex;
+          justify-content: space-around;
+          margin-bottom: 25px;
+          margin-top: 0;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          white-space: nowrap;
+          -webkit-overflow-scrolling: touch;
+      }
+      .nav-tabs .nav-item {
+          flex: 1;
+          text-align: center;
+      }
+      .nav-tabs .nav-link {
+          background-color: #d3d3d3;
+          color: #ffffff;
+          border-radius: 20px;
+          padding: 8px 16px;
+          font-weight: 500;
+          font-size: 14px;
+          width: 100%;
+          margin: 0 5px;
+          transition: background-color 0.3s;
+      }
+      .nav-tabs .nav-link.active {
+          background-color: var(--primary-color);
+          color: #ffffff;
+      }
+      .nav-tabs .nav-link:hover {
+          background-color: var(--primary-light);
+          color: var(--primary-dark);
+      }
+      @media (max-width: 767px) {
+          .nav-tabs .nav-link {
+              font-size: 10px;
+              padding: 6px 8px;
+          }
+          .container-main {
+              max-width: 100% !important;
+              width: 100% !important;
+              padding: 12px !important;
+              margin: 0 !important;
+          }
+      }
+      .step-title {
+          color: var(--primary-color);
+          font-size: 18px;
+          font-weight: 700;
+          margin-bottom: 20px;
+          text-transform: uppercase;
+          text-align: center;
+      }
+      .step-description {
+          font-size: 14px;
+          text-align: center;
+          margin-bottom: 20px;
+          color: #1a3c87;
+      }
+      .image-section {
+          text-align: center;
+          margin: 20px 0;
+      }
+      .canvas-container {
+          position: relative;
+          margin: 20px auto;
+          max-width: 100%;
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+      }
+      
+      #contractCanvas, #disbursementCanvas {
+          width: 100%;
+          max-width: 100%;
+          height: auto;
+          display: block;
+          border: 2px solid #e9ecef;
+          border-radius: 8px;
+          image-rendering: -webkit-optimize-contrast;
+          image-rendering: crisp-edges;
+      }
+      
+      @media (max-width: 768px) {
+          .canvas-container {
+              margin: 10px 0;
+              padding: 0 10px;
+          }
+          
+          #contractCanvas, #disbursementCanvas {
+              max-width: calc(100vw - 40px);
+              border-radius: 4px;
+          }
+      }
+      #contractCanvas.loading, #disbursementCanvas.loading {
+          opacity: 0.5;
+          background: rgba(248, 249, 250, 0.9);
+      }
+      .page-nav {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          margin-bottom: 12px;
+          flex-wrap: wrap;
+      }
+      .page-nav button {
+          background: #fff;
+          border: 1px solid #00b4fa;
+          color: #00b4fa;
+          padding: 6px 14px;
+          border-radius: 20px;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+      }
+      .page-nav button:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+      }
+      .page-indicator {
+          font-size: 14px;
+          font-weight: 600;
+          color: #1a3c87;
+          min-width: 120px;
+          text-align: center;
+      }
+      .page-title {
+          text-align: center;
+          font-size: 13px;
+          color: #666;
+          margin-bottom: 10px;
+      }
+      .doc-page-dots {
+          display: flex;
+          justify-content: center;
+          gap: 6px;
+          margin-bottom: 12px;
+          flex-wrap: wrap;
+      }
+      .doc-page-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #d3d3d3;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+      }
+      .doc-page-dot.active {
+          background: #00b4fa;
+      }
+      .btn-download {
+          background-color: #17a2b8;
+          color: white;
+          font-size: 14px;
+          font-weight: 700;
+          padding: 10px 20px;
+          border-radius: 20px;
+          transition: all 0.3s ease;
+      }
+      .btn-download:hover {
+          background-color: var(--primary-color);
+      }
+      .btn-primary {
+          background-color: var(--primary-color);
+          border: none;
+          border-radius: 20px;
+          padding: 10px 20px;
+          font-weight: 700;
+          font-size: 14px;
+          transition: all 0.3s ease;
+          margin: 5px;
+      }
+      .btn-primary:hover {
+          background-color: var(--primary-dark);
+          box-shadow: 0 4px 12px rgba(0, 180, 250, 0.3);
+      }
+      .btn-secondary {
+          background-color: #6c757d;
+          color: white;
+          border: none;
+          border-radius: 20px;
+          padding: 10px 20px;
+          font-weight: 700;
+          font-size: 14px;
+          transition: all 0.3s ease;
+          margin: 5px;
+      }
+      .btn-secondary:hover {
+          background-color: #5a6268;
+      }
+      .footer {
+          text-align: center;
+          padding: 20px;
+          background-color: var(--primary-color);
+          color: white;
+          margin-top: 20px;
+          font-size: 12px;
+      }
+      .footer-links a {
+          color: #b3cde0;
+          margin: 0 10px;
+          text-decoration: none;
+          transition: color 0.3s;
+      }
+      .footer-links a:hover {
+          color: var(--primary-light);
+      }
+      .button-group {
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          margin-top: 15px;
+          flex-wrap: wrap;
+      }
+      .doc-tabs {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 20px;
+      }
+      .doc-tab {
+          flex: 1;
+          border: 1px solid #ddd;
+          background: #f5f5f5;
+          color: #666;
+          padding: 12px 16px;
+          border-radius: 10px;
+          font-weight: 600;
+          cursor: pointer;
+      }
+      .doc-tab.active {
+          background: var(--primary-color);
+          color: #fff;
+          border-color: var(--primary-color);
+      }
+      .doc-panel { display: none; }
+      .doc-panel.active { display: block; }
+      @media (max-width: 767px) {
+          .button-group {
+              flex-direction: row;
+              justify-content: center;
+              flex-wrap: nowrap;
+          }
+          .button-group a, .button-group button {
+              flex: 1;
+              text-align: center;
+              padding: 8px 10px;
+              font-size: 12px;
+          }
+      }
+      .divider-blue {
+          border-top: 1px solid #b3cde0;
+          margin: 15px 0;
+      }
+      .error-message {
+          color: #ff4d4f;
+          font-size: 14px;
+          font-weight: 500;
+          text-align: center;
+          margin-top: 5px;
+          padding: 6px;
+          background-color: #ffe6e6;
+          border-radius: 5px;
+          display: none;
+      }
+      .test-mode-banner {
+          background-color: #e8f7fd;
+          color: #141ed2;
+          border: 2px solid #00b4fa;
+          border-radius: 8px;
+          padding: 12px 16px;
+          margin-bottom: 15px;
+          text-align: center;
+          font-size: 16px;
+          font-weight: 700;
+          display: none;
+      }
+      .test-mode-banner i {
+          margin-right: 8px;
+          color: #ffc107;
+      }
+      .canvas-loading-overlay {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: rgba(255, 255, 255, 0.95);
+          padding: 20px 30px;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+          display: none;
+          z-index: 10;
+      }
+      .canvas-loading-overlay.show {
+          display: block;
+      }
+      .spinner {
+          border: 3px solid #f3f3f3;
+          border-top: 3px solid #00b4fa;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          animation: spin 1s linear infinite;
+          margin: 0 auto 10px;
+      }
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }
+      .btn-download .spinner-small {
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          border: 2px solid #ffffff;
+          border-top: 2px solid transparent;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+          margin-right: 8px;
+          vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- M Credit Header -->
+    <header class="mcredit-header">
+      <div class="container-header">
+        <div style="flex: 0 0 auto;">
+          <a href="../index.html" title="M CREDIT - VAY TIÊU DÙNG TÍN CHẤP" style="display: flex; align-items: center; text-decoration: none;">
+            <img src="../image/mcredit-logo.png" alt="M CREDIT Logo" 
+                 style="object-fit: contain; height: 40px; max-width: 200px;">
+            <span style="margin-left: 10px; font-size: 14px; font-weight: 600; color: #00b4fa; display: none;" class="logo-text">
+              M CREDIT - VAY TIÊU DÙNG TÍN CHẤP
+            </span>
+          </a>
+        </div>
+        <div class="header-icons">
+          <i class="bi bi-search"></i>
+          <div class="dropdown">
+            <i
+              class="bi bi-list"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            ></i>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" href="loan_registration.html">ĐĂNG KÝ TRỰC TUYẾN</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#footer">LIÊN HỆ</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <hr class="divider-blue" style="margin: 0" />
+
+    <div class="container-main">
+      <!-- Tabs -->
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="step1.html">1. Nhập thông tin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="step4.html">2. Xác thực và xử lý</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="step6.html">3. Hoàn thành</a>
+        </li>
+      </ul>
+
+      <div id="step6" class="step-transition">
+        <h5 class="step-title">Hợp đồng & Điều kiện giải ngân</h5>
+        <div class="test-mode-banner" id="testModeBanner">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>Đang chạy chế độ kiểm thử (Tiếp tục)</span>
+        </div>
+        <div class="error-message" id="formError"></div>
+        <p class="step-description">
+          Hợp đồng cho vay tiền mặt Mcredit (BM02.BM-PTSP/02) — đầy đủ <strong>11 trang</strong> theo PDF gốc. Trang 1–2: thông tin & ký kết. Trang 3–11: điều kiện & điều khoản kèm theo.
+        </p>
+
+        <div class="doc-tabs">
+          <button type="button" class="doc-tab active" data-panel="contractPanel">Hợp đồng vay (trang 1–2)</button>
+          <button type="button" class="doc-tab" data-panel="disbursementPanel">Điều kiện & điều khoản (trang 3–11)</button>
+        </div>
+
+        <div id="contractPanel" class="doc-panel active">
+          <div class="page-nav">
+            <button type="button" id="contractPrevBtn" disabled>‹ Trước</button>
+            <span class="page-indicator" id="contractPageIndicator">Trang 1 / 2</span>
+            <button type="button" id="contractNextBtn">Sau ›</button>
+          </div>
+          <div class="doc-page-dots" id="contractPageDots"></div>
+          <p class="page-title" id="contractPageTitle">Trang 1 — Thông tin hợp đồng</p>
+          <div class="image-section">
+            <div class="canvas-container">
+              <div class="canvas-loading-overlay" id="contractLoadingOverlay">
+                <div class="spinner"></div>
+                <div style="text-align: center; color: #00b4fa; font-weight: 500;">Đang tải hợp đồng...</div>
+              </div>
+              <canvas id="contractCanvas"></canvas>
+            </div>
+          </div>
+          <div class="button-group mt-3">
+            <button id="downloadContractBtn" class="btn btn-download" disabled>TẢI HỢP ĐỒNG (11 TRANG)</button>
+          </div>
+        </div>
+
+        <div id="disbursementPanel" class="doc-panel">
+          <div class="page-nav">
+            <button type="button" id="termsPrevBtn" disabled>‹ Trước</button>
+            <span class="page-indicator" id="termsPageIndicator">Trang 3 / 11</span>
+            <button type="button" id="termsNextBtn">Sau ›</button>
+          </div>
+          <div class="doc-page-dots" id="termsPageDots"></div>
+          <p class="page-title" id="termsPageTitle">Trang 3 — Phần 2: Điều kiện & điều khoản</p>
+          <div class="image-section">
+            <div class="canvas-container">
+              <div class="canvas-loading-overlay" id="disbursementLoadingOverlay">
+                <div class="spinner"></div>
+                <div style="text-align: center; color: #00b4fa; font-weight: 500;">Đang tải điều kiện & điều khoản...</div>
+              </div>
+              <canvas id="disbursementCanvas" aria-label="Điều kiện và điều khoản"></canvas>
+            </div>
+          </div>
+          <div class="button-group mt-3">
+            <button id="downloadDisbursementBtn" class="btn btn-download" disabled>TẢI ĐIỀU KIỆN (TRANG 3–11)</button>
+          </div>
+        </div>
+
+        <hr class="divider-blue" />
+        <div class="button-group">
+          <a href="step5.html" class="btn btn-secondary">QUAY LẠI</a>
+          <button id="proceedToStep8Btn" type="button" class="btn btn-primary">TIẾP TỤC</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer" id="footer">
+      <div class="footer-links">
+        <a href="chinh-sach-bao-mat.html">Chính sách bảo mật</a> |
+        <a href="dieu-khoan-su-dung.html">Điều khoản sử dụng</a> |
+        <a href="https://chatbot.zalo.me/ref/180152826712642475?id=kichhoattuvan"
+          >Liên hệ</a
+        >
+      </div>
+      <p class="mt-3">© 2025 M CREDIT BANK VIETNAM ALL RIGHTS RESERVED.</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+      // =====================================================================
+      // STEP 6: HỢP ĐỒNG VAY - BUSINESS LOGIC (IMPROVED VERSION)
+      // Yêu cầu tải tài liệu trước khi tiếp tục
+      // =====================================================================
+      
+      const ENCRYPTION_KEYS = ["fecredit-secret-key-v1", "fecredit-secret-key"];
+      const CONTRACT_CONFIG_URL = "../configs/contract-field-positions.json";
+      const CONTRACT_CONFIG_VERSION = "2.2.1";
+      
+      let userData = {};
+      let isTestMode = false;
+      let contractFieldConfig = null;
+      let renderedPageCanvases = {};
+      let contractSectionPages = [1, 2];
+      let termsSectionPages = [3, 4, 5, 6, 7, 8, 9, 10, 11];
+      let contractViewIndex = 0;
+      let termsViewIndex = 0;
+      let isContractRendered = false;
+      
+      // =====================================================================
+      // UTILITY FUNCTIONS
+      // =====================================================================
+      
+      /**
+       * Tạo dữ liệu giả để test (Mock Data)
+       */
+      function createMockData() {
+        return {
+          isRegistered: true,
+          fullName: "NGUYEN VAN A",
+          gender: "Ông",
+          cccd: "001234567890",
+          issueDate: "01/01/2020",
+          issuePlace: "Cục Cảnh sát ĐKQL Cư trú và DLQG về dân cư",
+          permanentAddress: "123 Nguyen Trai, Ha Noi",
+          phone: "0901234567",
+          email: "test@example.com",
+          loanAmount: 50000000,
+          loanProductName: "Vay tiền mặt",
+          loanPurpose: "Mục đích tiêu dùng hợp pháp",
+          purpose: "Mục đích tiêu dùng hợp pháp",
+          loanTerm: 12,
+          interestRate: 25,
+          disbursementMethod: "Chuyển khoản vào tài khoản",
+          accountNumber: "1234567890",
+          bankName: "Mbbank",
+          bankBranch: "Chi nhánh Hà Nội",
+          disbursementDate: new Date().toISOString().split('T')[0],
+          loanCode: "MCR-TEST-001",
+          currentStep: 6,
+          isContractDownloaded: false,
+          isDisbursementDownloaded: false
+        };
+      }
+      
+      function decryptUserData(encrypted) {
+        if (!encrypted) return null;
+        for (const key of ENCRYPTION_KEYS) {
+          try {
+            const text = CryptoJS.AES.decrypt(encrypted, key).toString(CryptoJS.enc.Utf8);
+            if (text) return JSON.parse(text);
+          } catch (e) {
+            continue;
+          }
+        }
+        try {
+          const parsed = JSON.parse(encrypted);
+          if (parsed && typeof parsed === "object") return parsed;
+        } catch (e) {
+          return null;
+        }
+        return null;
+      }
+
+      function normalizeLoadedUserData(data) {
+        if (!data || typeof data !== "object") return null;
+        if (!data.fullName && data.full_name) data.fullName = data.full_name;
+        if (!data.cccd && data.cmnd) data.cccd = data.cmnd;
+        if (!data.permanentAddress && data.contactAddress) data.permanentAddress = data.contactAddress;
+        return data;
+      }
+
+      function hasValidStoredData(data) {
+        return Boolean(data && String(data.fullName || "").trim().length >= 2);
+      }
+
+      /**
+       * Load và giải mã userData từ localStorage
+       */
+      function loadUserData() {
+        try {
+          const encryptedData = localStorage.getItem("userData");
+          if (!encryptedData) {
+            console.warn("Không tìm thấy dữ liệu trong localStorage - Chuyển sang Test Mode");
+            userData = createMockData();
+            isTestMode = true;
+            showTestModeBanner();
+            return true;
+          }
+
+          const parsed = normalizeLoadedUserData(decryptUserData(encryptedData));
+          if (!parsed) {
+            console.warn("Giải mã thất bại - Chuyển sang Test Mode");
+            userData = createMockData();
+            isTestMode = true;
+            showTestModeBanner();
+            return true;
+          }
+
+          userData = parsed;
+
+          if (!hasValidStoredData(userData)) {
+            console.warn("Dữ liệu không hợp lệ - Chuyển sang Test Mode");
+            userData = createMockData();
+            isTestMode = true;
+            showTestModeBanner();
+            return true;
+          }
+
+          if (!userData.isRegistered) userData.isRegistered = true;
+          isTestMode = false;
+          hideTestModeBanner();
+          return true;
+        } catch (error) {
+          console.error("Lỗi giải mã dữ liệu:", error);
+          console.warn("Chuyển sang Test Mode do lỗi");
+          userData = createMockData();
+          isTestMode = true;
+          showTestModeBanner();
+          return true;
+        }
+      }
+
+      /**
+       * Hiển thị banner Test Mode
+       */
+      function showTestModeBanner() {
+        $("#testModeBanner").show();
+      }
+
+      function hideTestModeBanner() {
+        $("#testModeBanner").hide();
+      }
+      
+      /**
+       * Lưu userData vào localStorage (có mã hóa)
+       */
+      function saveUserData() {
+        try {
+          // Không lưu trong test mode
+          if (isTestMode) {
+            console.log("Test Mode: Bỏ qua lưu dữ liệu vào localStorage");
+            return true;
+          }
+          
+          const encryptedData = CryptoJS.AES.encrypt(
+            JSON.stringify(userData),
+            ENCRYPTION_KEYS[1]
+          ).toString();
+          localStorage.setItem("userData", encryptedData);
+          return true;
+        } catch (error) {
+          console.error("Lỗi lưu dữ liệu:", error);
+          showError("Lỗi lưu dữ liệu. Vui lòng thử lại.");
+          return false;
+        }
+      }
+      
+      /**
+       * Hiển thị thông báo lỗi
+       */
+      function showError(message) {
+        const errorElement = $("#formError");
+        errorElement.css({
+          "background-color": "#ffe6e6",
+          "color": "#ff4d4f"
+        }).text(message).show();
+      }
+      
+      /**
+       * Ẩn thông báo lỗi
+       */
+      function hideError() {
+        $("#formError").hide().text("");
+      }
+      
+      /**
+       * Hiển thị thông báo thành công
+       */
+      function showSuccess(message) {
+        const errorElement = $("#formError");
+        errorElement.css({
+          "background-color": "#d4edda",
+          "color": "#155724"
+        }).text(message).show();
+        
+        // Tự động ẩn sau 3 giây
+        setTimeout(() => {
+          errorElement.css({
+            "background-color": "#ffe6e6",
+            "color": "#ff4d4f"
+          }).hide();
+        }, 3000);
+      }
+      
+      /**
+       * Disable các nút action
+       */
+      function disableButtons() {
+        $("#downloadContractBtn, #downloadDisbursementBtn").prop("disabled", true);
+      }
+      
+      /**
+       * Enable nút download
+       */
+      function enableDownloadButton() {
+        $("#downloadContractBtn").prop("disabled", false);
+      }
+      
+      /**
+       * Enable nút tiếp tục (không cần gọi, đã enable sẵn)
+       */
+      function enableProceedButton() {
+        $("#proceedToStep8Btn").prop("disabled", false);
+      }
+
+      function switchDocTab(panelId) {
+        $(".doc-tab").removeClass("active");
+        $(".doc-tab[data-panel='" + panelId + "']").addClass("active");
+        $(".doc-panel").removeClass("active");
+        $("#" + panelId).addClass("active");
+      }
+
+      function showCanvasLoading(overlayId) {
+        $("#" + overlayId).addClass("show");
+      }
+
+      function hideCanvasLoading(overlayId) {
+        $("#" + overlayId).removeClass("show");
+      }
+      
+      // =====================================================================
+      // CANVAS RENDERING
+      // =====================================================================
+      
+      function formatNumber(number) {
+        if (!number || number === "N/A" || number === 0) return "";
+        return Number(number).toLocaleString("vi-VN");
+      }
+
+      function splitDateISO(dateStr) {
+        if (!dateStr || typeof dateStr !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+          return { day: "", month: "", year: "" };
+        }
+        const [year, month, day] = dateStr.split("-");
+        return { day: day || "", month: month || "", year: year || "" };
+      }
+
+      function splitDateDMY(dateStr) {
+        if (!dateStr || typeof dateStr !== "string" || !/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+          return { day: "", month: "", year: "" };
+        }
+        const [day, month, year] = dateStr.split("/");
+        return { day: day || "", month: month || "", year: year || "" };
+      }
+
+      function buildContractFieldValues() {
+        const contractDate = splitDateISO(userData.disbursementDate || new Date().toISOString().split("T")[0]);
+        const issueDate = splitDateDMY(userData.issueDate);
+        const contractDateFull = contractDate.day
+          ? `Ngày ${contractDate.day} tháng ${contractDate.month} năm ${contractDate.year}`
+          : "";
+        return {
+          loanCode: userData.loanCode || "MCR000000",
+          contractDateDay: contractDate.day,
+          contractDateMonth: contractDate.month,
+          contractDateYear: contractDate.year,
+          contractDateFull,
+          borrowerName: `${userData.gender || ""} ${userData.fullName || ""}`.trim(),
+          cccd: userData.cccd || "",
+          issueDateDay: issueDate.day,
+          issueDateMonth: issueDate.month,
+          issueDateYear: issueDate.year,
+          issuePlace: userData.issuePlace || "",
+          permanentAddress: userData.permanentAddress || userData.contactAddress || "",
+          phone: userData.phone || "",
+          loanAmountFormatted: userData.loanAmount ? `${formatNumber(userData.loanAmount)} VND` : "",
+          loanAmountNumber: userData.loanAmount ? formatNumber(userData.loanAmount) : "",
+          loanTermFormatted: userData.loanTerm ? `${userData.loanTerm} kỳ trả nợ` : "",
+          loanTermNumber: userData.loanTerm ? String(userData.loanTerm) : "",
+          loanProductName: userData.loanProductName || userData.loanType || "",
+          interestRateFormatted: userData.interestRate ? `${userData.interestRate}%/năm` : "",
+          interestRateNumber: userData.interestRate ? String(userData.interestRate) : "",
+          accountNumber: userData.accountNumber || "",
+          bankName: userData.bankName || "",
+          bankBranch: userData.bankBranch || ""
+        };
+      }
+
+      function loadImage(src) {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => resolve(image);
+          image.onerror = () => reject(new Error(`Không tải được ảnh: ${src}`));
+          image.src = src;
+        });
+      }
+
+      function getFieldArea(field) {
+        const left = field.areaLeft ?? field.x;
+        const right = field.areaRight ?? (left + (field.maxWidth || 400));
+        return { left, right, width: right - left };
+      }
+
+      function getAlignedX(ctx, text, field) {
+        const { left, width } = getFieldArea(field);
+        const textWidth = ctx.measureText(text).width;
+        const align = field.align || "left";
+        if (align === "center") return left + Math.max(0, (width - textWidth) / 2);
+        if (align === "right") return left + Math.max(0, width - textWidth);
+        return field.x ?? left;
+      }
+
+      function getFieldY(field, defaults = {}) {
+        const baseY = field.y ?? 0;
+        const offset = field.yOffset ?? defaults.yOffset ?? 0;
+        return baseY + offset;
+      }
+
+      function wrapCanvasText(ctx, text, field, lineHeight, fontSize, defaults = {}) {
+        const { left, width } = getFieldArea(field);
+        const words = String(text).split(" ");
+        let line = "";
+        const startY = getFieldY(field, defaults);
+        const lines = [];
+
+        words.forEach((word) => {
+          const testLine = line ? `${line} ${word}` : word;
+          if (ctx.measureText(testLine).width > width && line) {
+            lines.push(line);
+            line = word;
+          } else {
+            line = testLine;
+          }
+        });
+        if (line) lines.push(line);
+
+        lines.forEach((lineText, index) => {
+          const drawX = getAlignedX(ctx, lineText, field);
+          ctx.fillText(lineText, drawX, startY + index * lineHeight);
+        });
+      }
+
+      function drawFieldsOnContext(ctx, fields, values, defaults = {}) {
+        if (!fields || !fields.length) return;
+        fields.forEach((field) => {
+          const value = values[field.dataKey];
+          if (!value) return;
+          const fontSize = field.fontSize || defaults.fontSize || 44;
+          const isBold = field.bold !== false && defaults.bold !== false;
+          ctx.font = `${isBold ? "bold " : ""}${fontSize}px Arial`;
+          ctx.fillStyle = field.color || "#000000";
+          ctx.textBaseline = "alphabetic";
+
+          if (field.wrap) {
+            wrapCanvasText(ctx, value, field, fontSize * 1.1, fontSize, defaults);
+          } else {
+            ctx.fillText(value, getAlignedX(ctx, value, field), getFieldY(field, defaults));
+          }
+        });
+      }
+
+      function normalizeContractConfig(config) {
+        if (config.pages && config.pages.length) return config;
+        if (config.fields) {
+          return {
+            ...config,
+            pages: [{
+              page: 1,
+              image: config.formSpec?.imagePath || "../image/hop-dong-mcredit.png",
+              title: "Trang 1",
+              fields: config.fields
+            }]
+          };
+        }
+        return config;
+      }
+
+      function applySectionPages(config) {
+        if (config.formSpec?.sections) {
+          contractSectionPages = config.formSpec.sections.contract?.pages || [1, 2];
+          termsSectionPages = config.formSpec.sections.terms?.pages || [3, 4, 5, 6, 7, 8, 9, 10, 11];
+        }
+      }
+
+      async function loadContractFieldConfig() {
+        if (contractFieldConfig) return contractFieldConfig;
+        const saved = localStorage.getItem("contractFieldPositions");
+        if (saved) {
+          try {
+            const parsed = normalizeContractConfig(JSON.parse(saved));
+            if (parsed.metadata?.version === CONTRACT_CONFIG_VERSION) {
+              contractFieldConfig = parsed;
+              applySectionPages(contractFieldConfig);
+              return contractFieldConfig;
+            }
+            console.warn("Cấu hình localStorage cũ, dùng file mặc định mới");
+          } catch (e) {
+            console.warn("Không đọc được cấu hình local, dùng file mặc định");
+          }
+        }
+        const response = await fetch(CONTRACT_CONFIG_URL);
+        if (!response.ok) throw new Error("Không tải được cấu hình tọa độ hợp đồng");
+        contractFieldConfig = normalizeContractConfig(await response.json());
+        applySectionPages(contractFieldConfig);
+        return contractFieldConfig;
+      }
+
+      function getPageConfig(pageNum) {
+        return contractFieldConfig?.pages?.find((p) => p.page === pageNum);
+      }
+
+      async function renderAllContractPages() {
+        const config = await loadContractFieldConfig();
+        const values = buildContractFieldValues();
+        const pageWidth = config.formSpec?.imageSize?.width || 2550;
+        const pageHeight = config.formSpec?.imageSize?.height || 3300;
+        renderedPageCanvases = {};
+
+        for (const pageConfig of config.pages) {
+          const offscreen = document.createElement("canvas");
+          offscreen.width = pageWidth;
+          offscreen.height = pageHeight;
+          const ctx = offscreen.getContext("2d");
+          const image = await loadImage(pageConfig.image);
+          ctx.drawImage(image, 0, 0, pageWidth, pageHeight);
+          drawFieldsOnContext(ctx, pageConfig.fields, values, config.formSpec?.defaultFieldStyle);
+          renderedPageCanvases[pageConfig.page] = offscreen;
+        }
+        isContractRendered = true;
+      }
+
+      function paintCanvasFromPage(displayCanvasId, pageNum) {
+        const src = renderedPageCanvases[pageNum];
+        const canvas = document.getElementById(displayCanvasId);
+        if (!src || !canvas) return;
+        canvas.width = src.width;
+        canvas.height = src.height;
+        canvas.getContext("2d").drawImage(src, 0, 0);
+      }
+
+      function buildPageDots(containerId, pageNumbers, activePage, onSelect) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        pageNumbers.forEach((pageNum) => {
+          const dot = document.createElement("button");
+          dot.type = "button";
+          dot.className = "doc-page-dot" + (pageNum === activePage ? " active" : "");
+          dot.title = `Trang ${pageNum}`;
+          dot.addEventListener("click", () => onSelect(pageNum));
+          container.appendChild(dot);
+        });
+      }
+
+      function updateContractPageView() {
+        const pageNum = contractSectionPages[contractViewIndex];
+        const pageConfig = getPageConfig(pageNum);
+        paintCanvasFromPage("contractCanvas", pageNum);
+        $("#contractPageIndicator").text(`Trang ${pageNum} / ${contractFieldConfig?.formSpec?.totalPages || 11}`);
+        $("#contractPageTitle").text(pageConfig?.title || `Trang ${pageNum}`);
+        $("#contractPrevBtn").prop("disabled", contractViewIndex <= 0);
+        $("#contractNextBtn").prop("disabled", contractViewIndex >= contractSectionPages.length - 1);
+        buildPageDots("contractPageDots", contractSectionPages, pageNum, (p) => {
+          contractViewIndex = contractSectionPages.indexOf(p);
+          updateContractPageView();
+        });
+      }
+
+      function updateTermsPageView() {
+        const pageNum = termsSectionPages[termsViewIndex];
+        const pageConfig = getPageConfig(pageNum);
+        paintCanvasFromPage("disbursementCanvas", pageNum);
+        $("#termsPageIndicator").text(`Trang ${pageNum} / ${contractFieldConfig?.formSpec?.totalPages || 11}`);
+        $("#termsPageTitle").text(pageConfig?.title || `Trang ${pageNum}`);
+        $("#termsPrevBtn").prop("disabled", termsViewIndex <= 0);
+        $("#termsNextBtn").prop("disabled", termsViewIndex >= termsSectionPages.length - 1);
+        buildPageDots("termsPageDots", termsSectionPages, pageNum, (p) => {
+          termsViewIndex = termsSectionPages.indexOf(p);
+          updateTermsPageView();
+        });
+      }
+
+      async function renderContractCanvas() {
+        const canvas = document.getElementById("contractCanvas");
+        if (!canvas) {
+          showError("Không tìm thấy khu vực hiển thị hợp đồng.");
+          return;
+        }
+
+        showCanvasLoading("contractLoadingOverlay");
+        showCanvasLoading("disbursementLoadingOverlay");
+        canvas.classList.add("loading");
+        $("#disbursementCanvas").addClass("loading");
+
+        try {
+          await renderAllContractPages();
+          hideCanvasLoading("contractLoadingOverlay");
+          hideCanvasLoading("disbursementLoadingOverlay");
+          canvas.classList.remove("loading");
+          $("#disbursementCanvas").removeClass("loading");
+          contractViewIndex = 0;
+          termsViewIndex = 0;
+          updateContractPageView();
+          updateTermsPageView();
+          enableDownloadButton();
+          $("#downloadDisbursementBtn").prop("disabled", false);
+          if (userData.isContractDownloaded) enableProceedButton();
+        } catch (error) {
+          hideCanvasLoading("contractLoadingOverlay");
+          hideCanvasLoading("disbursementLoadingOverlay");
+          canvas.classList.remove("loading");
+          $("#disbursementCanvas").removeClass("loading");
+          console.error(error);
+          showError("Không thể tải hợp đồng. Vui lòng thử lại sau.");
+          disableButtons();
+        }
+      }
+
+      function downloadPagesAsPDF(pageNumbers, fileName, onSuccess) {
+        if (!isContractRendered || !window.jspdf) {
+          showError("Hợp đồng chưa sẵn sàng để tải xuống.");
+          return;
+        }
+        const canvases = pageNumbers.map((n) => renderedPageCanvases[n]).filter(Boolean);
+        if (!canvases.length) {
+          showError("Không có trang hợp đồng để tải.");
+          return;
+        }
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: "p",
+          unit: "px",
+          format: [canvases[0].width, canvases[0].height]
+        });
+        canvases.forEach((c, idx) => {
+          if (idx > 0) pdf.addPage([c.width, c.height]);
+          pdf.addImage(c.toDataURL("image/png", 1.0), "PNG", 0, 0, c.width, c.height);
+        });
+        pdf.save(fileName);
+        if (onSuccess) onSuccess();
+      }
+      
+      // =====================================================================
+      // PDF DOWNLOAD
+      // =====================================================================
+      
+      /**
+       * Tải xuống canvas dưới dạng PDF
+       */
+      function downloadContractAsPDF() {
+        const btn = $("#downloadContractBtn");
+        const originalText = btn.html();
+        btn.prop("disabled", true).html('<span class="spinner-small"></span>ĐANG TẢI...');
+        try {
+          const allPages = contractFieldConfig?.pages?.map((p) => p.page) || [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+          const loanCode = (userData.loanCode || "MCR000000").replace(/[^a-zA-Z0-9_-]/g, "");
+          downloadPagesAsPDF(allPages, `HopDongVay_${loanCode}_11trang.pdf`, () => {
+            userData.isContractDownloaded = true;
+            userData.contractDownloadedAt = new Date().toISOString();
+            if (saveUserData()) {
+              showSuccess("Hợp đồng 11 trang đã được tải xuống!");
+              enableProceedButton();
+            }
+          });
+        } catch (error) {
+          console.error("Lỗi tải PDF:", error);
+          showError("Không thể tải hợp đồng. Lỗi: " + error.message);
+        }
+        btn.prop("disabled", false).html(originalText);
+      }
+      
+      // =====================================================================
+      // NAVIGATION
+      // =====================================================================
+      
+      /**
+       * Kiểm tra và chuyển sang step 7
+       */
+      function downloadDisbursementAsPDF() {
+        const btn = $("#downloadDisbursementBtn");
+        const originalText = btn.html();
+        btn.prop("disabled", true).html('<span class="spinner-small"></span>ĐANG TẢI...');
+        try {
+          const loanCode = (userData.loanCode || "MCR000000").replace(/[^a-zA-Z0-9_-]/g, "");
+          downloadPagesAsPDF(termsSectionPages, `DieuKienDieuKhoan_${loanCode}.pdf`, () => {
+            userData.isDisbursementDownloaded = true;
+            userData.disbursementDownloadedAt = new Date().toISOString();
+            saveUserData();
+            showSuccess("Điều kiện & điều khoản (trang 3–11) đã được tải xuống!");
+          });
+        } catch (error) {
+          showError("Không thể tải điều kiện & điều khoản.");
+        }
+        btn.prop("disabled", false).html(originalText);
+      }
+
+      function proceedToStep8() {
+        userData.currentStep = 8;
+        userData.lastStep6CompletedAt = new Date().toISOString();
+        if (saveUserData()) {
+          window.location.href = "step8.html";
+        }
+      }
+      
+      // =====================================================================
+      // INITIALIZATION
+      // =====================================================================
+      
+      $(document).ready(function() {
+        // Disable buttons ban đầu
+        disableButtons();
+        
+        // Load userData (sẽ tự động tạo mock data nếu cần)
+        loadUserData();
+        
+        // Render canvas
+        renderContractCanvas();
+        
+        $("#contractPrevBtn").on("click", function() {
+          if (contractViewIndex > 0) {
+            contractViewIndex--;
+            updateContractPageView();
+          }
+        });
+        $("#contractNextBtn").on("click", function() {
+          if (contractViewIndex < contractSectionPages.length - 1) {
+            contractViewIndex++;
+            updateContractPageView();
+          }
+        });
+        $("#termsPrevBtn").on("click", function() {
+          if (termsViewIndex > 0) {
+            termsViewIndex--;
+            updateTermsPageView();
+          }
+        });
+        $("#termsNextBtn").on("click", function() {
+          if (termsViewIndex < termsSectionPages.length - 1) {
+            termsViewIndex++;
+            updateTermsPageView();
+          }
+        });
+
+        $(".doc-tab").on("click", function() {
+          switchDocTab($(this).data("panel"));
+        });
+
+        $("#downloadContractBtn").on("click", function() {
+          if (!$(this).prop("disabled")) downloadContractAsPDF();
+        });
+
+        $("#downloadDisbursementBtn").on("click", function() {
+          if (!$(this).prop("disabled")) downloadDisbursementAsPDF();
+        });
+        
+        $("#proceedToStep8Btn").on("click", proceedToStep8);
+
+        if (window.location.hash === "#disbursement") {
+          switchDocTab("disbursementPanel");
+        }
+      });
+    </script>
+    <script src="mobile-fixes.js"></script>
+  </body>
+</html>

