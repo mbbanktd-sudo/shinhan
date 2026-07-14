@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="640" viewBox="0 0 520 640" role="img" aria-label="Khuy�n m�i ng k� vay Mcredit">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141ed2"/>
+      <stop offset="100%" stop-color="#3d85c6"/>
+    </linearGradient>
+  </defs>
+  <rect width="520" height="640" rx="16" fill="url(#bg)"/>
+  <circle cx="420" cy="120" r="90" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="80" cy="560" r="120" fill="rgba(255,255,255,0.08)"/>
+  <text x="40" y="90" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Mcredit</text>
+  <text x="40" y="170" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700">ng k� vay</text>
+  <text x="40" y="220" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700">ngay h�m nay</text>
+  <text x="40" y="280" fill="#e8f0ff" font-family="Arial, Helvetica, sans-serif" font-size="22">H� s� �n gi�n " Duy�t nhanh</text>
+  <rect x="40" y="520" width="220" height="56" rx="28" fill="#ffffff"/>
+  <text x="68" y="555" fill="#141ed2" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">B�m � ng k�</text>
+</svg>
