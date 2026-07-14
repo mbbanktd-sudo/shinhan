@@ -1,0 +1,24 @@
+MCredit Website - Trang chu offline
+=====================================
+
+Thu muc nay giu trang chu, 3 trang san pham va quy trinh dang ky vay:
+  - vi/vay-tien-mat/
+  - vi/vay-tra-gop/
+  - vi/the-tin-dung/
+  - pages/step1.html (dang ky vay - buoc 1)
+Cac trang con lai lien ket den https://mcredit.com.vn
+
+1. Mo trang web (chon 1 cach):
+
+   Cach A - Python (khuyen nghi):
+     python start_server.py
+     Mo trinh duyet: http://localhost:8080/
+
+   Cach B - Mo truc tiep:
+     Mo file index.html bang trinh duyet
+
+2. Luu y:
+   - Menu, bai viet... tro ve mcredit.com.vn
+   - Dang ky vay: pages/step1.html -> step2 -> ... (offline)
+   - Form dang ky/dang nhap can ket noi server that
+   - Nguon: https://mcredit.com.vn
