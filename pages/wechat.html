@@ -619,10 +619,10 @@
           stored.amount?.replace(/[^0-9]/g, "") ||
           params.get("amount") ||
           "50000000";
-        const amount = parseInt(amountRaw, 10) || 50000000;
+        const amount = parseInt(amountRaw, 10) || 150000000;
         return {
           fullName:
-            stored.fullName || params.get("fullName") || "Nguyễn Văn A",
+            stored.fullName || params.get("fullName") || "Thạch Thị Lài",
           cccd: stored.cccd || params.get("cccd") || "",
           amount,
           amountFormatted:
