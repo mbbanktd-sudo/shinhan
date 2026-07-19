@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes, viewport-fit=cover" />
+    <script src="../js/desktop-scale.js"></script>
+    <script src="../js/index-image-cdn.js"></script>
+    <title>Đăng ký thành công - MCREDIT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../configs/shared/mcredit-design-tokens.css" />
+    <link rel="stylesheet" href="loan-mobile.css" />
+    <link rel="stylesheet" href="mobile-accessibility.css" />
+    <style>
+        :root {
+            --primary-color: var(--mcredit-primary, #00b4fa);
+            --primary-dark: var(--mcredit-primary-dark, #141ed2);
+            --primary-light: var(--mcredit-primary-light, #66d4fc);
+            --dark-text: #212121;
+            --bg-cream: var(--mcredit-bg-secondary, #f8f9fc);
+            --border-light: #e0e0e0;
+        }
+
+        body {
+            background: var(--bg-cream);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .success-box {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tick-circle {
+            width: 90px;
+            height: 90px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 6px 20px rgba(0, 180, 250, 0.35);
+            animation: tickPulse 2s infinite;
+        }
+
+        .tick-circle i {
+            color: white;
+            font-size: 50px;
+        }
+
+        @keyframes tickPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo { margin-bottom: 20px; }
+        .logo img { height: 40px; object-fit: contain; }
+
+        .title { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            color: var(--dark-text); 
+            margin-bottom: 10px; 
+        }
+
+        .loan-amount { 
+            font-size: 1.4rem; 
+            font-weight: 700; 
+            color: var(--primary-dark); 
+            margin-bottom: 25px; 
+        }
+
+        .message-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+        }
+
+        .message-text {
+            font-size: 0.95rem;
+            color: var(--dark-text);
+            line-height: 1.7;
+        }
+
+        .highlight-blue {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .link-more {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 5px;
+        }
+
+        .link-more:hover {
+            text-decoration: underline;
+        }
+
+        .countdown-box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            border: 1px dashed var(--primary-color);
+        }
+
+        .btn-action-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Hàng nút phụ: Lưu thụ hưởng & Xem hợp đồng */
+        .btn-secondary-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .btn-outline-custom {
+            background: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px 5px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-custom:hover {
+            background: #f8f9fa;
+            color: var(--dark-text);
+            border-color: #ccc;
+        }
+
+        .btn-main {
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-main:hover {
+            background: var(--primary-color);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-contact-zalo {
+            background: var(--primary-color);
+            color: white;
+            padding: 16px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1.05rem;
+        }
+
+        .btn-contact-zalo:hover {
+            background: var(--primary-dark);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="success-box">
+        <div class="tick-circle">
+            <i class="bi bi-check-lg"></i>
+        </div>
+
+        <div class="logo">
+            <img src="../image/logo-mcredit.svg" alt="MCREDIT">
+        </div>
+
+        <h1 class="title">Đăng ký vay thành công!</h1>
+        <div class="loan-amount" id="loanAmount">Đang tải...</div>
+
+        <div class="message-container">
+            <div class="message-text">
+                <p class="highlight-blue">Hạn mức và điều kiện giải ngân:</p>
+                • Khoản vay không thế chấp, Mcredit yêu cầu duy trì <strong>10% số dư</strong> trong tài khoản để chứng minh thu nhập.<br><br>
+                • Số dư này chỉ cần để trong thẻ, <strong>không cần nạp hay chuyển cho bất kỳ ai</strong>.<br><br>
+                • <strong>Ví dụ:</strong> Vay 30 triệu thì số dư tối thiểu trong thẻ cần có là 3 triệu VNĐ.<br><br>
+                • Vui lòng cung cấp ảnh chứng minh số dư để hoàn tất nhận tiền trước 24h. 
+                <a href="/pages/dich-vu-chung-minh-tai-chinh.html" class="link-more">Xem thêm</a>
+            </div>
+        </div>
+
+        <div class="countdown-box">
+            Thời gian: <span id="timer">23:59:59</span>
+        </div>
+
+        <div class="btn-action-group">
+            <div class="btn-secondary-row">
+                <a href="step6.html" class="btn-outline-custom">
+                    <i class="bi bi-person-plus"></i> Hợp đồng
+                </a>
+                <a href="step6.html#disbursement" class="btn-outline-custom">
+                    <i class="bi bi-file-earmark-text"></i> Điều kiện giải ngân
+                </a>
+            </div>
+
+            <a href="https://zalo.me/84928765807" target="_blank" class="btn-contact-zalo">
+                <i class="bi bi-chat-dots-fill"></i> Hỗ trợ
+            </a>
+
+            <button onclick="window.location.href='step10.html'" class="btn-main">
+                XÁC THỰC SỐ DƯ - GIẢI NGÂN
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script>
+        const ENCRYPTION_KEYS = ['fecredit-secret-key-v1', 'fecredit-secret-key'];
+
+        function decryptData(encrypted) {
+            for (let key of ENCRYPTION_KEYS) {
+                try {
+                    const bytes = CryptoJS.AES.decrypt(encrypted, key);
+                    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+                    if (decrypted) return JSON.parse(decrypted);
+                } catch (e) { continue; }
+            }
+            return null;
+        }
+
+        function initData() {
+            const raw = localStorage.getItem('userData');
+            const display = document.getElementById('loanAmount');
+            
+            if (!raw) {
+                display.textContent = "Đang cập nhật";
+                return;
+            }
+
+            const data = decryptData(raw);
+            if (data) {
+                const amount = data.loanAmount || data.registerAmount || data.amount;
+                display.textContent = amount 
+                    ? parseInt(amount).toLocaleString('vi-VN') + ' VNĐ' 
+                    : "Chưa xác định";
+            }
+            
+            localStorage.setItem('currentStep', 'step8.html');
+            localStorage.setItem('applicationStatus', 'completed');
+        }
+
+        let seconds = 24 * 60 * 60;
+        function startTimer() {
+            const timerEl = document.getElementById('timer');
+            const interval = setInterval(() => {
+                const h = Math.floor(seconds / 3600);
+                const m = Math.floor((seconds % 3600) / 60);
+                const s = seconds % 60;
+                timerEl.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                if (--seconds < 0) clearInterval(interval);
+            }, 1000);
+        }
+
+        window.onload = () => {
+            initData();
+            startTimer();
+        };
+    </script>
+    <script src="mobile-fixes.js"></script>
+</body>
+</html>

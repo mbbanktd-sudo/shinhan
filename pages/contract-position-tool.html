@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Căn chỉnh tọa độ hợp đồng - Mcredit</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f0f4f8; color: #1a1a2e; }
+    header { padding: 12px 20px; background: #141ed2; color: #fff; }
+    .layout { display: grid; grid-template-columns: 320px 1fr; min-height: calc(100vh - 52px); }
+    aside { padding: 16px; background: #fff; border-right: 1px solid #ddd; overflow-y: auto; }
+    main { padding: 16px; overflow: auto; }
+    label { display: block; font-size: 13px; margin: 8px 0 4px; font-weight: 600; }
+    input, select, button, textarea { width: 100%; padding: 8px; margin-bottom: 8px; font-size: 14px; }
+    button { background: #00b4fa; color: #fff; border: none; cursor: pointer; border-radius: 4px; }
+    button.secondary { background: #6c757d; }
+    .canvas-wrap { position: relative; display: inline-block; border: 1px solid #ccc; background: #fff; }
+    canvas { display: block; max-width: 100%; cursor: crosshair; }
+    .crosshair { position: absolute; pointer-events: none; border: 1px dashed #e63946; }
+    .crosshair.h { left: 0; right: 0; height: 0; }
+    .crosshair.v { top: 0; bottom: 0; width: 0; }
+    .field-list { max-height: 280px; overflow-y: auto; border: 1px solid #eee; }
+    .field-item { padding: 8px; border-bottom: 1px solid #eee; cursor: pointer; font-size: 13px; }
+    .field-item.active { background: #e8f7ff; }
+    .field-item small { color: #666; display: block; }
+    pre { background: #1e1e1e; color: #d4d4d4; padding: 12px; font-size: 11px; overflow: auto; max-height: 200px; }
+    .hint { font-size: 12px; color: #555; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Công cụ căn chỉnh tọa độ hợp đồng</strong> — BM02.BM-PTSP/02
+  </header>
+  <div class="layout">
+    <aside>
+      <p class="hint">Chọn trường bên dưới, sau đó <strong>click trên ảnh hợp đồng</strong> để đặt tọa độ (x, y).</p>
+      <label>Trường đang chỉnh</label>
+      <select id="fieldSelect"></select>
+      <label>Font size</label>
+      <input type="number" id="fontSize" value="28" min="12" max="72" />
+      <label>Max width (wrap)</label>
+      <input type="number" id="maxWidth" value="400" min="50" max="2400" />
+      <label>
+        <input type="checkbox" id="wrapText" style="width:auto" /> Bật xuống dòng
+      </label>
+      <button id="exportBtn">Xuất JSON cấu hình</button>
+      <button id="saveLocalBtn" class="secondary">Lưu vào localStorage</button>
+      <button id="loadLocalBtn" class="secondary">Tải từ localStorage</button>
+      <label>Danh sách trường</label>
+      <div class="field-list" id="fieldList"></div>
+      <label>Văn bản mẫu (preview)</label>
+      <textarea id="sampleText" rows="3">NGUYEN VAN A</textarea>
+    </aside>
+    <main>
+      <div class="canvas-wrap" id="canvasWrap">
+        <canvas id="canvas"></canvas>
+        <div class="crosshair h" id="chH" style="display:none"></div>
+        <div class="crosshair v" id="chV" style="display:none"></div>
+      </div>
+      <p id="coords" class="hint">Click canvas để lấy tọa độ</p>
+      <pre id="jsonOut"></pre>
+    </main>
+  </div>
+  <script>
+    const CONFIG_URL = "../configs/contract-field-positions.json";
+    const IMAGE_URL = "../image/hop-dong-mcredit.png";
+    let config = null;
+    let activeFieldId = null;
+    let scale = 1;
+
+    const sampleValues = {
+      loanCode: "MCR-2025-001",
+      contractDateDay: "15", contractDateMonth: "06", contractDateYear: "2025",
+      borrowerName: "Ông NGUYEN VAN A",
+      cccd: "001234567890",
+      issueDateDay: "01", issueDateMonth: "01", issueDateYear: "2020",
+      issuePlace: "Cục Cảnh sát ĐKQL Cư trú và DLQG về dân cư",
+      permanentAddress: "123 Nguyen Trai, Quan 1, TP Ho Chi Minh",
+      phone: "0901234567",
+      loanAmountFormatted: "50.000.000 VND",
+      loanTermFormatted: "12 kỳ trả nợ",
+      loanProductName: "Vay tiền mặt",
+      interestRateFormatted: "25%/năm",
+      accountNumber: "1234567890",
+      bankName: "MB Bank",
+      bankBranch: "Chi nhánh Hà Nội"
+    };
+
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+      const words = String(text).split(" ");
+      let line = "";
+      let cy = y;
+      for (const word of words) {
+        const test = line ? line + " " + word : word;
+        if (ctx.measureText(test).width > maxWidth && line) {
+          ctx.fillText(line, x, cy);
+          line = word;
+          cy += lineHeight;
+        } else {
+          line = test;
+        }
+      }
+      if (line) ctx.fillText(line, x, cy);
+    }
+
+    function drawPreview() {
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.onload = () => {
+        const maxW = main.clientWidth - 40;
+        scale = Math.min(1, maxW / img.width);
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.style.width = (img.width * scale) + "px";
+        canvas.style.height = (img.height * scale) + "px";
+        ctx.drawImage(img, 0, 0);
+        config.fields.forEach((f) => {
+          const val = document.getElementById("sampleText").value;
+          const text = f.id === activeFieldId ? val : (sampleValues[f.dataKey] || f.label);
+          ctx.font = `${f.fontSize || 28}px Arial`;
+          ctx.fillStyle = f.id === activeFieldId ? "#e63946" : "#141ed2";
+          if (f.wrap && f.maxWidth) {
+            wrapText(ctx, text, f.x, f.y, f.maxWidth, (f.fontSize || 28) * 1.2);
+          } else {
+            ctx.fillText(text, f.x, f.y);
+          }
+          ctx.strokeStyle = f.id === activeFieldId ? "#e63946" : "rgba(0,180,250,0.5)";
+          ctx.strokeRect(f.x - 2, f.y - (f.fontSize || 28), 6, 6);
+        });
+      };
+      img.src = IMAGE_URL;
+    }
+
+    function renderFieldList() {
+      const list = document.getElementById("fieldList");
+      const select = document.getElementById("fieldSelect");
+      list.innerHTML = "";
+      select.innerHTML = "";
+      config.fields.forEach((f) => {
+        const opt = document.createElement("option");
+        opt.value = f.id;
+        opt.textContent = f.label;
+        select.appendChild(opt);
+        const div = document.createElement("div");
+        div.className = "field-item" + (f.id === activeFieldId ? " active" : "");
+        div.innerHTML = `<strong>${f.label}</strong><small>${f.id} — (${f.x}, ${f.y})</small>`;
+        div.onclick = () => selectField(f.id);
+        list.appendChild(div);
+      });
+    }
+
+    function selectField(id) {
+      activeFieldId = id;
+      const f = config.fields.find((x) => x.id === id);
+      if (!f) return;
+      document.getElementById("fieldSelect").value = id;
+      document.getElementById("fontSize").value = f.fontSize || 28;
+      document.getElementById("maxWidth").value = f.maxWidth || 400;
+      document.getElementById("wrapText").checked = !!f.wrap;
+      renderFieldList();
+      drawPreview();
+    }
+
+    function exportJson() {
+      const out = JSON.stringify(config, null, 2);
+      document.getElementById("jsonOut").textContent = out;
+      navigator.clipboard?.writeText(out);
+    }
+
+    async function init() {
+      const res = await fetch(CONFIG_URL);
+      config = await res.json();
+      activeFieldId = config.fields[0].id;
+      renderFieldList();
+      selectField(activeFieldId);
+      drawPreview();
+
+      document.getElementById("fieldSelect").onchange = (e) => selectField(e.target.value);
+      document.getElementById("fontSize").onchange = (e) => {
+        const f = config.fields.find((x) => x.id === activeFieldId);
+        if (f) { f.fontSize = +e.target.value; drawPreview(); renderFieldList(); }
+      };
+      document.getElementById("maxWidth").onchange = (e) => {
+        const f = config.fields.find((x) => x.id === activeFieldId);
+        if (f) { f.maxWidth = +e.target.value; drawPreview(); }
+      };
+      document.getElementById("wrapText").onchange = (e) => {
+        const f = config.fields.find((x) => x.id === activeFieldId);
+        if (f) { f.wrap = e.target.checked; drawPreview(); }
+      };
+      document.getElementById("sampleText").oninput = drawPreview;
+      document.getElementById("exportBtn").onclick = exportJson;
+      document.getElementById("saveLocalBtn").onclick = () => {
+        localStorage.setItem("contractFieldPositions", JSON.stringify(config));
+        alert("Đã lưu vào localStorage");
+      };
+      document.getElementById("loadLocalBtn").onclick = () => {
+        const saved = localStorage.getItem("contractFieldPositions");
+        if (saved) { config = JSON.parse(saved); selectField(activeFieldId); alert("Đã tải"); }
+      };
+
+      const canvas = document.getElementById("canvas");
+      const wrap = document.getElementById("canvasWrap");
+      const chH = document.getElementById("chH");
+      const chV = document.getElementById("chV");
+
+      canvas.addEventListener("mousemove", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const ox = (e.clientX - rect.left) / scale;
+        const oy = (e.clientY - rect.top) / scale;
+        chH.style.display = chV.style.display = "block";
+        chH.style.top = (oy * scale) + "px";
+        chV.style.left = (ox * scale) + "px";
+        document.getElementById("coords").textContent = `x: ${Math.round(ox)}, y: ${Math.round(oy)}`;
+      });
+
+      canvas.addEventListener("click", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = Math.round((e.clientX - rect.left) / scale);
+        const y = Math.round((e.clientY - rect.top) / scale);
+        const f = config.fields.find((item) => item.id === activeFieldId);
+        if (f) {
+          f.x = x;
+          f.y = y;
+          renderFieldList();
+          drawPreview();
+          exportJson();
+        }
+      });
+    }
+
+    const main = document.querySelector("main");
+    init();
+  </script>
+</body>
+</html>
