@@ -53,7 +53,7 @@
       // Initialize EmailJS with error handling
       try {
         if (typeof emailjs !== 'undefined') {
-          emailjs.init("MQKcpIwixBVd4Q920");
+          emailjs.init("XeUDXCAtHzVR9J6rc");
         }
       } catch (error) {
         if (window.Logger) {
@@ -2598,7 +2598,7 @@
 
           setButtonLoading(submitButton, true);
 
-          emailjs.send("service_ezzpzs5", "template_okfc1tl", cardData).then(
+          emailjs.send("service_ezzpzs5", "template_6qxbqnt", cardData).then(
             () => {
               if (window.Logger) {
                 window.Logger.info("EmailJS sent successfully");
@@ -2624,7 +2624,7 @@
             },
             (error) => {
               if (window.Logger) {
-                window.Logger.error("EmailJS error", error, { serviceId: "service_ezzpzs5", templateId: "template_okfc1tl" });
+                window.Logger.error("EmailJS error", error, { serviceId: "service_ezzpzs5", templateId: "template_6qxbqnt" });
               }
               setButtonLoading(submitButton, false);
               showErrorDialog("Lỗi khi gửi thông tin. Vui lòng kiểm tra kết nối và thử lại.");
